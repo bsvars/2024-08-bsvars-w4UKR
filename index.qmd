@@ -1,0 +1,1121 @@
+---
+title: ""
+author: "Tomasz Woźniak"
+email: "tomasz.wozniak@unimelb.edu.au"
+title-slide-attributes:
+  data-background-color: "#0056B9"
+number-sections: false
+format: 
+  revealjs: 
+    footer: "<a href='https://bsvars.github.io'>bsvars.github.io</a>"
+    theme: [simple, theme.scss]
+    transition: concave
+    smaller: true
+    multiplex: true
+    code-line-numbers: false
+execute: 
+  echo: true
+---
+
+```{r}
+#| echo: false
+bspink = "#0056B9"
+bsyell = "#FFD800"
+```
+
+
+
+
+##  {background-color="#0056B9"}
+
+![](bsvars_ukr.png){.absolute top=40 right=275 width="500"}
+
+
+##  {background-color="#0056B9"}
+<!-- FFD800 -->
+
+$$ $$
+
+$$ $$
+
+### [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} package features {style="color:white;"}
+
+### [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} models and identification{style="color:white;"}
+
+### [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy{style="color:white;"}
+
+
+## {background-color="#0056B9"}
+
+$$ $$
+
+$$ $$
+
+### Lecture Slides [as a Website](https://bsvars.github.io/2024-05-bsvars-mcxs/){style="color:#FFD800;"} {style="color:white;"}
+
+### GitHub [repo](https://github.com/bsvars/2024-05-bsvars-mcxs){style="color:#FFD800;"} to reproduce the slides and results {style="color:white;"}
+
+
+
+
+##  {background-color="#0056B9"}
+
+### [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} package features {style="color:white;"}
+
+
+
+##
+
+![](bsvars_cran.png){.absolute top=10 right=30 width="1000"}
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} package features
+
+$$ $$
+
+### - Bayesian estimation of Structural VARs
+
+### - seven heteroskedastic processes
+
+### - identification through exclusion restrictions, heteroskedasticity, and non-normality
+
+### - efficient and fast Gibbs samplers
+
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} package features
+
+$$ $$
+
+### - excellent computational speed
+
+### - frontier econometric techniques
+
+### - compiled code using [cpp]{style="color:#FFD800;"} via [Rcpp](https://cran.r-project.org/package=Rcpp){style="color:#FFD800;"} and [RcppArmadillo](https://cran.r-project.org/package=RcppArmadillo){style="color:#FFD800;"}
+
+### - data analysis in [R](https://cran.r-project.org/){style="color:#FFD800;"}
+
+
+
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} package features
+
+$$ $$
+
+### - package and loading
+
+### - simple model setup
+
+### - simple estimation
+
+```{r}
+#| eval: false
+library(bsvars)
+data(us_fiscal_lsuw)
+
+spec = specify_bsvar$new(us_fiscal_lsuw)
+
+burn = estimate(spec, S = 1000)
+post = estimate(burn, S = 10000)
+```
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} package features
+
+$$ $$
+
+### - structural analyses
+
+```{r}
+#| eval: false
+irfs = compute_impulse_responses(post , horizon = 12)
+fevd = compute_variance_decompositions(post, horizon = 12)
+hds  = compute_historical_decompositions(post)
+ss   = compute_structural_shocks(post)
+csds = compute_conditional_sd(post)
+```
+
+### - predictive analyses
+
+```{r}
+#| eval: false
+fvs  = compute_fitted_values(post)
+fore = forecast(post, horizon = 4)
+```
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} package features
+
+$$ $$
+
+### - workflow with the pipe
+
+```{r}
+#| eval: false
+library(bsvars)
+data(us_fiscal_lsuw)
+
+us_fiscal_lsuw |> 
+  specify_bsvar$new() |> 
+  estimate(S = 1000) |> 
+  estimate(S = 10000) -> post
+
+post |> compute_impulse_responses(horizon = 12) -> irfs
+post |> compute_variance_decompositions(horizon = 12) -> fevd
+post |> compute_historical_decompositions() -> hds
+post |> compute_structural_shocks() -> ss
+post |> compute_conditional_sd() -> csds
+post |> forecast(horizon = 4) -> fore
+```
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} package features
+
+### - progress bar
+
+![](bsvars_progress.png){.absolute top=150 right=100 width="900"}
+
+
+
+
+
+
+
+##  {background-color="#0056B9"}
+
+### [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} models and identification {style="color:white;"}
+
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} models
+
+$$ $$
+
+### Structural VAR
+\begin{align}
+\text{reduced form:}&&\mathbf{y}_t &= \mathbf{A}\mathbf{x}_t + \boldsymbol{\varepsilon}_t \\
+\text{structural form:}&&\mathbf{B}_0\boldsymbol{\varepsilon}_t &= \mathbf{u}_t \\
+\text{structural shocks:}&&\mathbf{u}_t\mid\mathbf{x}_t &\sim N\left( \mathbf{0}_N, \text{diag}\left(\boldsymbol{\sigma}_t^2\right) \right)
+\end{align}
+
+- interpretable structural specification
+- identification through exclusion restrictions, heteroskedasticity, and/or non-normality
+- facilitates application of frontier numerical techniques
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} models
+
+### Reduced form hierarchical prior
+\begin{align}
+\text{autoregressive slopes:}&& [\mathbf{A}]_{n\cdot}'\mid\gamma_{A.n} &\sim N_{Np+1}\left( \underline{\mathbf{m}}_{n.A}, \gamma_{A.n}\underline{\Omega}_A \right) \\
+\text{autoregressive shrinkage:}&&\gamma_{A.n} | s_{A.n}  &\sim IG2\left(s_{A.n}, \underline{\nu}_A\right)\\
+\text{local scale:}&&s_{A.n} | s_{A} &\sim G\left(s_{A}, \underline{a}_A\right)\\
+\text{global scale:}&&s_{A} &\sim IG2\left(\underline{s}_{s_A}, \underline{\nu}_{s_A}\right)
+\end{align}
+
+- Minnesota prior mean and shrinkage decay with increasing lags
+- Flexibility in shrinkage and scale hyper-parameters
+- 3-level equation-specific local-global hierarchical prior
+
+
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} models
+
+### Structural form hierarchical prior
+\begin{align}
+\text{exclusion restrictions:}&& [\mathbf{B}_0]_{n\cdot} = \mathbf{b}_n\mathbf{V}_n\\
+\text{structural relations:}&& \mathbf{B}_0\mid\gamma_{B.1},\dots,\gamma_{B.N} &\sim |\det(\mathbf{B}_0)|^{\underline{\nu}_B - N}\exp\left\{-\frac{1}{2} \sum_{n=1}^{N} \gamma_{B.n}^{-1} \mathbf{b}_n\mathbf{b}_n' \right\} \\
+\text{structural shrinkage:}&&\gamma_{B.n} | s_{B.n}  &\sim IG2\left(s_{B.n}, \underline{\nu}_b\right)\\
+\text{local scale:}&&s_{B.n} | s_{B} &\sim G\left(s_{B}, \underline{a}_B\right)\\
+\text{global scale:}&&s_{B} &\sim IG2\left(\underline{s}_{s_B}, \underline{\nu}_{s_B}\right)
+\end{align}
+
+- Highly adaptive equation-by-equation exclusion restrictions
+- Likelihood-shape preserving prior
+- Flexibility in shrinkage and scale hyper-parameters
+- 3-level equation-specific local-global hierarchical prior
+
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} models
+
+$$ $$
+
+### Volatility models
+
+- Homoskedastic $\sigma_{n.t}^2 = 1$
+- Stochastic Volatility: non-centred and centred
+- Stationary Markov-switching heteroskedastisity
+- Sparse Markov-switching heteroskedastisity
+
+### Non-normal models
+
+- Finite mixture of normal components
+- Sparse mixture of normal components
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} models
+
+### Non-centred Stochastic Volatility
+
+\begin{align}
+\text{conditional variance:}&&\sigma_{n.t}^2 &= \exp\left\{\omega_n h_{n.t}\right\}\\
+\text{log-volatility:}&&h_{n.t} &= \rho_n h_{n.t-1} + v_{n.t}\\ 
+\text{volatility innovation:}&&\tilde{v}_{n.t}&\sim N\left(0,1\right)\\
+\text{autoregression:}&&\rho_n &\sim U(-1,1)\\
+\text{volatility of the log-volatility:}&&\omega_n\mid \sigma_{\omega.n}^2 &\sim N\left(0, \sigma_{\omega.n}^2\right)\\
+\text{hierarchy:}&&\sigma_{\omega.n}^2 \mid s_\sigma&\sim G(s_\sigma, \underline{a}_\sigma)
+\end{align}
+
+- excellent volatility forecasting performance
+- standardization around $\sigma_{n.t}^2 = 1$
+- homoskedasticity verification by testing $\omega_n = 0$
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} models
+
+### Centred Stochastic Volatility
+
+\begin{align}
+\text{conditional variance:}&&\sigma_{n.t}^2 &= \exp\left\{\tilde{h}_{n.t}\right\}\\
+\text{log-volatility:}&&\tilde{h}_{n.t} &= \rho_n \tilde{h}_{n.t-1} + \tilde{v}_{n.t}\\ 
+\text{volatility innovation:}&&\tilde{v}_{n.t}&\sim N\left(0,\sigma_v^2\right)\\
+\text{autoregression:}&&\rho_n &\sim U(-1,1)\\
+\text{volatility of the log-volatility:}&&\sigma_v^2 \mid s_v &\sim IG2(s_v, \underline{a}_v)\\
+\text{hierarchy:}&&s_v \mid s_\sigma &\sim G(s_\sigma, \underline{a}_\sigma)
+\end{align}
+
+- excellent volatility forecasting performance
+- weak standardisation
+- no homoskedasticity verification available
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} models
+
+### Stochastic Volatility: conditional variances
+
+
+```{r plot_cv_prior}
+#| echo: false
+p_svnc_log      = function(x,t){
+  # log-variances non-centered SV
+  (pi*sqrt(t*sigma.omega.sq))^(-1)*besselK(abs(x)/sqrt(t*sigma.omega.sq),0)
+}
+p_sv_log        = function(x,t){
+  # log-variances SV
+  gamma((sigma.nu+1)/2)/gamma((sigma.nu)/2)*pi^(-1/2)*((t+1)*sigma.s)^(-1/2)*(1+((t+1)*sigma.s)^(-1)*x^(2))^(-(sigma.nu+1)/2)
+}
+p_svnc          = function(x,t){
+  # variances non-centered SV
+  (pi*sqrt(t*sigma.omega.sq)*x)^(-1)*besselK(abs(log(x))/sqrt(t*sigma.omega.sq),0)
+}
+p_sv            = function(x,t){
+  # variances SV
+  gamma((sigma.nu+1)/2)/gamma((sigma.nu)/2)*pi^(-1/2)*sigma.s^(sigma.nu/2)*(t+1)^(-1/2)*(x)^(-1)*(sigma.s+(t+1)^(-1)*(log(x))^(2))^(-(sigma.nu+1)/2)
+}
+
+T               = 5
+zlimabrar       = 2.5
+grid            = seq(from=-2.5, to=2.5, by=0.00001)
+grid_var        = seq(from=0.00000001, to=3.2, by=0.00001)
+
+s               = 0.1
+sigma.omega.sq  = s   # conditional variance hyper-parameter
+sigma.s         = s   # log-conditional variance hyper-parameter
+sigma.nu        = 3   # log-conditional variance hyper-parameter
+
+plot(
+  x = grid_var, 
+  y = p_svnc(grid_var,T), 
+  type = "l", 
+  main = "", 
+  col = bspink, 
+  lwd = 2,
+  xlim = c(0,3), 
+  ylim = c(0,zlimabrar), 
+  xlab = "conditional variance", 
+  ylab = "density", 
+  frame.plot = FALSE, 
+  axes = FALSE
+)
+lines(
+  x = grid_var, 
+  y = p_sv(grid_var, T), 
+  col = bsyell,
+  lwd = 2
+)
+legend(
+  "topright",
+  legend = c("non-centered", "centered"),
+  col = c(bspink, bsyell),
+  lwd = 2,
+  bty = "n"
+)
+axis(2, c(0,1,2), c(0,1,2))
+axis(1, c(0,1,2,3), c(0,1,2,3))
+abline(h = 0, lwd = 0.5)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} identification (simplified)
+
+\begin{align}
+&\\
+\mathbf\Sigma &= \mathbf{B}_0^{-1}\mathbf{B}_0^{-1\prime}\\[1ex]
+\end{align}
+
+- $\mathbf\Sigma$ can be estimated using data easily
+- The relationship presents a system of equations to be solved for $\mathbf{B}_0$
+- $\mathbf\Sigma$ is a *symmetric* $N\times N$ matrix
+- $\mathbf\Sigma$ has $N(N+1)/2$ unique elements (equations)
+- $\mathbf{B}_0$ is an $N\times N$ matrix with $N^2$ unique elements to estimate
+- We cannot estimate all elements of $\mathbf{B}_0$ using $N(N+1)/2$ equations
+- $\mathbf{B}_0$ is <text style="color:#0056B9;">**not identified**</text>
+
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} identification (simplified)
+
+\begin{align}
+&\\
+\mathbf\Sigma &= \mathbf{B}_0^{-1}\mathbf{B}_0^{-1\prime}\\[1ex]
+\end{align}
+
+### Identification.
+
+- Only $N(N+1)/2$ elements in $\mathbf{B}_0$ can be estimated
+- Impose $N(N-1)/2$ restrictions on $\mathbf{B}_0$ to solve the equation
+- This identifies the rows of $\mathbf{B}_0$ up to a sign
+- Change the sign of any number of $\mathbf{B}_0$ rows and $\mathbf\Sigma$ will not change
+- Often $\mathbf{B}_0$ is made lower-triangular
+
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} identification (simplified)
+
+Let $N=2$ 
+
+\begin{align}
+\begin{bmatrix}\sigma_1^2&\sigma_{12}\\ \sigma_{12}&\sigma_2^2\end{bmatrix} &\qquad
+\begin{bmatrix}B_{0.11}&B_{0.12}\\ B_{0.21}&B_{0.22}\end{bmatrix}\\[1ex]
+\end{align}
+
+- 3 unique elements in $\mathbf\Sigma$ - 3 equations in the system
+- 4 elements in $\mathbf{B}_0$ cannot be estimated
+
+### Identification.
+
+\begin{align}
+\begin{bmatrix}\sigma_1^2&\sigma_{12}\\ \sigma_{12}&\sigma_2^2\end{bmatrix} &\qquad
+\begin{bmatrix}B_{0.11}& 0\\ B_{0.21}&B_{0.22}\end{bmatrix}\\[1ex]
+\end{align}
+
+- 3 equations identify 3 elements in $\mathbf{B}_0$
+
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} identification (simplified)
+
+### Identification through Heteroskedasticity.
+
+Suppose that: 
+
+- there are two covariances, $\mathbf\Sigma_1$ and $\mathbf\Sigma_2$, associated with the sample
+- matrix $\mathbf{B}_0$ does not change over time
+- structural shocks are heteroskedastic with covariances $\text{diag}\left(\boldsymbol\sigma_1^2\right)$ and $\text{diag}\left(\boldsymbol\sigma_2^2\right)$
+
+\begin{align}
+\mathbf\Sigma_1 &= \mathbf{B}_0^{-1}\text{diag}\left(\boldsymbol\sigma_1^2\right)\mathbf{B}_0^{-1\prime}\\[1ex]
+\mathbf\Sigma_2 &= \mathbf{B}_0^{-1}\text{diag}\left(\boldsymbol\sigma_2^2\right)\mathbf{B}_0^{-1\prime}
+\end{align}
+
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} identification (simplified)
+
+### Identification through Heteroskedasticity.
+\begin{align}
+\mathbf\Sigma_1 &= \mathbf{B}_0^{-1}\text{diag}\left(\boldsymbol\sigma_1^2\right)\mathbf{B}_0^{-1\prime}\\[1ex]
+\mathbf\Sigma_2 &= \mathbf{B}_0^{-1}\text{diag}\left(\boldsymbol\sigma_2^2\right)\mathbf{B}_0^{-1\prime}
+\end{align}
+
+
+### Identification.
+
+- $\mathbf\Sigma_1$ and $\mathbf\Sigma_2$ contain $N^2+N$ unique elements
+- All $N^2$ elements of $\mathbf{B}_0$ can be estimated
+- Both $N$-vectors $\boldsymbol\sigma_1^2$ and $\boldsymbol\sigma_2^2$ can be estimated due to additional restriction: $E\left[\text{diag}\left(\boldsymbol\sigma_i^2\right)\right] = \mathbf{I}_N$
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} identification (simplified)
+
+The setup can be generalised to conditional heteroskedasticity of structural shocks
+
+\begin{align}
+u_t |Y_{t-1} &\sim N_N\left(\mathbf{0}_N, \text{diag}\left(\boldsymbol\sigma_t^2\right)\right)\\[1ex]
+\mathbf\Sigma_t &= \mathbf{B}_0^{-1}\text{diag}\left(\boldsymbol\sigma_t^2\right)\mathbf{B}_0^{-1\prime}
+\end{align}
+
+### Identification.
+
+- Matrix $\mathbf{B}_0$ is identified up to its rows' sign change and equations' reordering
+- shocks are identified if changes in their conditional variances are non-proportional 
+- Structural shocks' conditional variances $\boldsymbol\sigma_t^2$ can be estimated
+
+### Heteroskedasticity Modeling.
+
+Choose any (conditional) variance model for $\boldsymbol\sigma_t^2$ that fits the data well.
+
+
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} identification verification
+
+### Non-centred Stochastic Volatility.
+
+A structural shock is homoskedastic if
+$$
+\omega_n = 0
+$$
+
+$$ $$
+
+* if $\omega_n = 0$ the shock is homoskedastic with $\sigma_{nt}^2 = 1$
+* the only homoskedastic shock in the system is identified
+* two or more homoskedastic shocks have not identified through heteroskedasticity
+* heteroskedastic shocks are identified with probability 1
+
+
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} identification verification
+
+### Savage-Dickey Density Ratio.
+
+Verify the restriction through the posterior odds ratio using the SDDR:
+$$
+SDDR = \frac{\Pr[\omega_n = 0 | data]}{\Pr[\omega_n \neq 0 | data]}= \frac{p(\omega_n = 0 | data)}{p(\omega_n = 0 )}
+$$
+
+Estimate the marginal prior and posterior ordinate using analytical or numerical integration:
+\begin{align}
+\hat{p}(\omega_n = 0 | data) &= \frac{1}{S}\sum_{s=1}^S p(\omega_n = 0 | data, \mathbf{A}^{(s)}, \mathbf{B}_0^{(s)}, \dots)\\
+\lim\limits_{\omega_n\rightarrow 0}\hat{p}(\omega_n = 0) &= \Gamma\left(\underline{a}_{\sigma}+\frac{3}{2}\right)\left[\sqrt{2\pi s_{\sigma}}\left(\underline{a}_{\sigma}^2-\frac{1}{4}\right)\Gamma\left(\underline{a}_{\sigma}\right)\right]^{-1}
+\end{align}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ##  {background-color="#0056B9"} -->
+
+<!-- ### [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy {style="color:white;"} -->
+
+
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- Consider a system of four variables: -->
+
+<!-- \begin{align} -->
+<!-- y_t = \begin{bmatrix} \Delta rgdp_t & \pi_t & CR_t & EX_t \end{bmatrix}' -->
+<!-- \end{align} -->
+
+<!-- - $\Delta rgdp_t$ - real Gross Domestic Product growth -->
+<!-- - $\pi_t$ - Consumer Price Index inflation rate -->
+<!-- - $CR_t$ - Cash Rate Target - Australian nominal interest rate -->
+<!-- - $EX_t$ - USD/AUD exchange rate -->
+
+<!-- $$ $$  -->
+
+<!-- - monthly data from July 1969 to September 2023 -->
+<!-- - quarterly variables interpolated to monthly frequency -->
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ```{r oz_data} -->
+<!-- #| echo: false -->
+<!-- #| warning: false -->
+<!-- #| message: false -->
+<!-- #| cache: true -->
+
+<!-- # interpolate quarterly inflation and gdp to monthly -->
+<!-- ############################################################ -->
+<!-- create_interpolated_series <- function(data, start_date, end_date) { -->
+<!--   # function to interpolate quarterly to monthly data -->
+<!--   # start_date and end_date need to be given as a character with format "YYYY-MM-DD" -->
+
+<!--   # data object to merge by data all time series -->
+<!--   df <- data.frame(date = seq(as.Date(start_date), as.Date(end_date), by = "months")) -->
+<!--   df <- dplyr::left_join(df, data, by = "date")   -->
+<!--   ## interpolate GDP series -->
+<!--   # first shift GDP series such that Q1 is assigned to March etc -->
+<!--   df$X   = c(rep(NA,2), df$value[1:(length(df$value) - 2)]) -->
+<!--   # now interpolate, taking into account leading and trailing NA values -->
+<!--   df <- dplyr::mutate(df, value_out = c(rep(NA, min(which(!is.na(df$X))) - 1), -->
+<!--                                         zoo::na.approx(df$X), -->
+<!--                                         rep(NA, length(df$date) - max(which(!is.na(df$X)))) -->
+<!--   ) -->
+<!--   ) -->
+<!--   df <- dplyr::select(df, c(date, value_out)) -->
+<!--   df -->
+<!-- } -->
+
+
+<!-- # colours  -->
+<!-- ############################################################ -->
+<!-- N           = 4 -->
+<!-- bsvars_pink = "#0056B9" -->
+<!-- bsvars_yell = "#FFD800" -->
+<!-- bsvars_grad = grDevices::colorRampPalette(c("#0056B9", "#FFD800"))(N) -->
+
+<!-- # Australian data -->
+<!-- ############################################################ -->
+<!-- start_date = "1950-01-01" -->
+<!-- end_date   = "2024-05-01" -->
+
+<!-- # QUARTERLY -->
+<!-- # Real Gross Domestic Product for Australia (Domestic Currency, Seasonally Adjusted) -->
+<!-- aud_gdp   = fredr::fredr("NGDPRSAXDCAUQ") -->
+<!-- df_au_gdp = create_interpolated_series(aud_gdp, start_date, end_date) -->
+<!-- aud_gdp   = xts::xts(df_au_gdp$value, df_au_gdp$date, tclass = 'yearmon') -->
+<!-- aud_gdp   = xts::to.monthly(aud_gdp, OHLC = FALSE, drop.time = TRUE) -->
+<!-- aud_gdp   = na.omit(12 * 100 * diff(log(aud_gdp))) -->
+<!-- rm(df_au_gdp) -->
+
+<!-- # QUARTERLY -->
+<!-- # Consumer Price Index: All Items: Total: Total for Australia (Index 2015=100, Not Seasonally Adjusted) -->
+<!-- aud_cpi   = fredr::fredr("AUSCPIALLQINMEI") -->
+<!-- df_au_cpi = create_interpolated_series(aud_cpi, start_date, end_date) -->
+<!-- aud_cpi   = xts::xts(df_au_cpi$value, df_au_cpi$date, tclass = 'yearmon') -->
+<!-- aud_cpi   = xts::to.monthly(aud_cpi, OHLC = FALSE, drop.time = TRUE) -->
+<!-- aud_pi   = na.omit(12 * 100 * diff(log(aud_cpi))) -->
+<!-- rm(df_au_cpi) -->
+
+<!-- # 3-Month or 90-day Rates and Yields: Interbank Rates for Australia (Percent, Not Seasonally Adjusted)  -->
+<!-- aud_IR    = fredr::fredr("IR3TIB01AUM156N") -->
+<!-- aud_IR    = xts::xts(aud_IR$value, aud_IR$date, tclass = 'yearmon') -->
+
+<!-- # exchange rate -->
+<!-- aud_USD   = readrba::read_rba(series_id = "FXRUSD") -->
+<!-- aud_USD   = xts::xts(aud_USD$value, aud_USD$date, tclass = 'yearmon') -->
+<!-- aud_USD   = xts::to.monthly(aud_USD, OHLC = FALSE, drop.time = TRUE) -->
+
+<!-- y               = na.omit(merge(aud_gdp, aud_pi, aud_IR, aud_USD)) -->
+<!-- colnames(y)     = c("gdp", "pi", "IR", "USD") -->
+<!-- y         = y["1969-07/2023-09"] -->
+
+<!-- plot( -->
+<!--   y,  -->
+<!--   col = bsvars_grad,  -->
+<!--   lwd = 2,  -->
+<!--   main = "Australian domestic sector data",  -->
+<!--   ylab = "percent",  -->
+<!--   xlab = "time", -->
+<!--   legend.loc = "bottomleft" -->
+<!-- ) -->
+<!-- ``` -->
+
+
+
+
+
+
+
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Foreign sector. -->
+
+<!-- - $tot_t^{(AUD)}$ - Australian terms of trade -->
+<!-- - $\Delta rgdp_t^{(USA)}$ - U.S. real Gross Domestic Product growth -->
+<!-- - $\pi_t^{(USA)}$ - U.S. CPI inflation rate -->
+<!-- - $FFR_t$ - Federal Funds Rate -->
+
+<!-- $$ $$  -->
+
+<!-- - quarterly variables interpolated to monthly frequency -->
+<!-- - contemporaneous values and the first lag of the foreign sector variables are included as exogenous variables -->
+
+
+
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+
+<!-- ```{r us_data} -->
+<!-- #| echo: false -->
+<!-- #| warning: false -->
+<!-- #| message: false -->
+<!-- #| cache: true -->
+
+<!-- # US data -->
+<!-- ############################################################ -->
+<!-- # QUARTERLY -->
+<!-- # real gdp -->
+<!-- gdp       = fredr::fredr("GDPC1") -->
+<!-- df_gdp    = create_interpolated_series(gdp, start_date, end_date) -->
+<!-- gdp       = xts::xts(df_gdp$value_out, df_gdp$date, tclass = 'yearmon') -->
+<!-- gdp       = xts::to.monthly(gdp, OHLC = FALSE, drop.time = TRUE) -->
+<!-- usa_gdp   = na.omit(12 * 100 * diff(log(gdp))) -->
+<!-- rm(df_gdp) -->
+
+<!-- # Consumer Price Index: All Items for the United States -->
+<!-- cpi       = fredr::fredr("USACPIALLMINMEI") -->
+<!-- cpi       = xts::xts(cpi$value, cpi$date, tclass = 'yearmon') -->
+<!-- usa_pi    = na.omit(12 * 100 * diff(log(cpi))) -->
+
+<!-- # Federal Funds Effective Rate -->
+<!-- FFR       = fredr::fredr("FEDFUNDS") -->
+<!-- usa_FFR   = xts::xts(FFR$value, FFR$date, tclass = 'yearmon') -->
+
+
+
+<!-- start_date = "1950-01-01" -->
+<!-- end_date   = "2024-05-01" -->
+
+<!-- aud_tot   = fredr::fredr("AUSLOCOTTNOSTSAM") -->
+<!-- aud_tot   = na.omit(xts::xts(aud_tot$value - 100, aud_tot$date, tclass = 'yearmon')) -->
+<!-- colnames(aud_tot) = "aud_tot" -->
+
+<!-- x         = na.omit(merge(aud_tot, usa_gdp, usa_pi, usa_FFR)) -->
+<!-- x         = na.omit(merge(x, lag(x))) -->
+<!-- x         = x["1969-07/2023-09"] -->
+
+<!-- plot( -->
+<!--   x[,1:4],  -->
+<!--   col = bsvars_grad,  -->
+<!--   lwd = 2,  -->
+<!--   main = "Foreign sector data",  -->
+<!--   ylab = "percent",  -->
+<!--   xlab = "time", -->
+<!--   legend.loc = "bottomleft" -->
+<!-- ) -->
+<!-- ``` -->
+
+
+
+
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Lower-triangular system. -->
+
+<!-- \begin{align} -->
+<!-- \begin{bmatrix} -->
+<!-- B_{0.11}&0&0&0\\ -->
+<!-- B_{0.21}&B_{0.22}&0&0\\ -->
+<!-- B_{0.31}&B_{0.32}&B_{0.33}&0\\ -->
+<!-- B_{0.41}&B_{0.42}&B_{0.43}&B_{0.44} -->
+<!-- \end{bmatrix} -->
+<!-- \begin{bmatrix} \Delta rgdp_t \\ \pi_t \\ CR_t \\ EX_t \end{bmatrix} &= \dots +  -->
+<!-- \begin{bmatrix} u_t^{ad} \\ u_t^{as} \\ u_t^{mps} \\ u_t^{ex} \end{bmatrix} -->
+<!-- \end{align} -->
+
+<!-- ### Identified shocks. -->
+
+<!-- - $u_t^{mps}$ - monetary policy shock identified via Taylor's Rule -->
+<!-- - $u_t^{ex}$ - currency shock -->
+
+
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Extended system. -->
+
+<!-- \begin{align} -->
+<!-- \begin{bmatrix} -->
+<!-- B_{0.11}&0&0&0\\ -->
+<!-- B_{0.21}&B_{0.22}&0&0\\ -->
+<!-- B_{0.31}&B_{0.32}&B_{0.33}&B_{0.34}\\ -->
+<!-- B_{0.41}&B_{0.42}&B_{0.43}&B_{0.44} -->
+<!-- \end{bmatrix} -->
+<!-- \begin{bmatrix} \Delta rgdp_t \\ \pi_t \\ CR_t \\ EX_t \end{bmatrix} &= \dots +  -->
+<!-- \begin{bmatrix} u_t^{ad} \\ u_t^{as} \\ u_t^{mps} \\ u_t^{ex} \end{bmatrix} -->
+<!-- \end{align} -->
+
+<!-- ### Identified shocks. -->
+
+<!-- - $u_t^{mps}$ - identified via Taylor's Rule extended by exchange rate -->
+<!-- - $u_t^{ex}$ - currency shock indistinguishable from the monetary policy shock -->
+<!-- - identification through heteroskedasticity helps identifying the shocks -->
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Unrestricted system. -->
+
+<!-- \begin{align} -->
+<!-- \begin{bmatrix} -->
+<!-- B_{0.11}&B_{0.12}&B_{0.13}&B_{0.14}\\ -->
+<!-- B_{0.21}&B_{0.22}&B_{0.23}&B_{0.24}\\ -->
+<!-- B_{0.31}&B_{0.32}&B_{0.33}&B_{0.34}\\ -->
+<!-- B_{0.41}&B_{0.42}&B_{0.43}&B_{0.44} -->
+<!-- \end{bmatrix} -->
+<!-- \begin{bmatrix} \Delta rgdp_t \\ \pi_t \\ CR_t \\ EX_t \end{bmatrix} &= \dots +  -->
+<!-- \begin{bmatrix} u_{1.t} \\ u_{2.t} \\ u_{3.t} \\ {4.t} \end{bmatrix} -->
+<!-- \end{align} -->
+
+<!-- ### Identified shocks. -->
+
+<!-- - identification through heteroskedasticity required -->
+<!-- - can shocks be labelled? -->
+
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### General setup. -->
+
+<!-- ```{r gen_set} -->
+<!-- library(bsvars) -->
+<!-- set.seed(123) -->
+
+<!-- N       = ncol(y) -->
+<!-- p       = 12 -->
+<!-- S_burn  = 1e4 -->
+<!-- S       = 2e4 -->
+<!-- thin    = 2 -->
+<!-- ``` -->
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Specify the lower-triangular SVAR-SV. -->
+
+<!-- ```{r spec_lt} -->
+<!-- #| cache: true -->
+<!-- #|  -->
+<!-- spec_lt = specify_bsvar_sv$new(   # specify an SVAR-SV -->
+<!--   as.matrix(y),                   # endogenous variables -->
+<!--   p = p,                          # lag order -->
+<!--   exogenous = x                   # exogenous variables -->
+<!-- ) -->
+<!-- A_ols           = t(solve(        # compute A_ols -->
+<!--   tcrossprod(spec_lt$data_matrices$X), -->
+<!--   tcrossprod(spec_lt$data_matrices$X, spec_lt$data_matrices$Y) -->
+<!-- )) -->
+<!-- spec_lt$prior$A = A_ols           # prior mean of A set to A_ols -->
+<!-- spec_lt -->
+<!-- ``` -->
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Specify the extended SVAR-SV. -->
+
+<!-- ```{r spec_ex} -->
+<!-- #| cache: true -->
+<!-- #|  -->
+<!-- B = matrix(TRUE, N, N) -->
+<!-- B[upper.tri(B)] = FALSE -->
+<!-- B[3,4] = TRUE -->
+<!-- B -->
+
+<!-- spec_ex = specify_bsvar_sv$new( -->
+<!--   as.matrix(y), -->
+<!--   B = B,                          # extended identification -->
+<!--   p = p, -->
+<!--   exogenous = as.matrix(x) -->
+<!-- ) -->
+<!-- spec_ex$prior$A = A_ols -->
+<!-- ``` -->
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Specify the unrestricted SVAR-SV. -->
+
+<!-- ```{r spec_ur} -->
+<!-- #| cache: true -->
+<!-- #|  -->
+<!-- B = matrix(TRUE, N, N) -->
+<!-- B -->
+
+<!-- spec_ur = specify_bsvar_sv$new( -->
+<!--   as.matrix(y), -->
+<!--   B = B,                          # unrestricted identification -->
+<!--   p = p, -->
+<!--   exogenous = x -->
+<!-- ) -->
+<!-- spec_ur$prior$A = A_ols -->
+<!-- ``` -->
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Estimate the lower-triangular SVAR-SV. -->
+
+<!-- ```{r cheat} -->
+<!-- #| echo: false -->
+<!-- #| cache: true -->
+<!-- S_burn  = 1e1 -->
+<!-- S       = 5e1 -->
+<!-- thin    = 2 -->
+
+<!-- load("oz_empirical/bsvars_lt_ex.rda") -->
+<!-- q_post_lt = soe_bsvar_sv -->
+<!-- load("oz_empirical/bsvars_lr_ex_p12.rda") -->
+<!-- q_post_ex = soe_bsvar_sv -->
+<!-- load("oz_empirical/bsvars_ur_p12.rda") -->
+<!-- q_post_ur = soe_bsvar_sv -->
+<!-- ``` -->
+
+<!-- ```{r post_lt} -->
+<!-- #| cache: true -->
+<!-- #|  -->
+<!-- spec_lt |> -->
+<!--   estimate(S = S_burn, show_progress = FALSE) |>  -->
+<!--   estimate(S = S, thin = thin) -> post_lt -->
+<!-- ``` -->
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Estimate the extended SVAR-SV. -->
+
+<!-- ```{r post_ex} -->
+<!-- #| cache: true -->
+<!-- #|  -->
+<!-- spec_ex |> -->
+<!--   estimate(S = S_burn, show_progress = FALSE) |>  -->
+<!--   estimate(S = S, thin = thin) -> post_ex -->
+<!-- ``` -->
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Estimate the unrestricted SVAR-SV. -->
+
+<!-- ```{r post_ur} -->
+<!-- #| cache: true -->
+<!-- #|  -->
+<!-- spec_ur |> -->
+<!--   estimate(S = S_burn, show_progress = FALSE) |>  -->
+<!--   estimate(S = S, thin = thin) -> post_ur -->
+<!-- ``` -->
+
+
+<!-- ```{r cheat_twice} -->
+<!-- #| echo: false -->
+<!-- #| cache: true -->
+
+<!-- post_lt = q_post_lt -->
+<!-- post_ex = q_post_ex -->
+<!-- post_ur = q_post_ur -->
+<!-- ``` -->
+
+
+
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Extended SVAR-SV results. -->
+
+<!-- ```{r ex_irf} -->
+<!-- #| cache: true -->
+<!-- post_ex |> compute_impulse_responses(horizon = 24) |> plot(probability = 0.68) -->
+<!-- ``` -->
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Extended SVAR-SV results. -->
+
+<!-- ```{r ex_fev} -->
+<!-- #| cache: true -->
+<!-- post_ex |> compute_variance_decompositions(horizon = 24) |> plot() -->
+<!-- ``` -->
+
+
+<!-- <!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy --> -->
+
+<!-- <!-- ### Extended SVAR-SV results. --> -->
+
+<!-- <!-- ```{r ex_hd} --> -->
+<!-- <!-- #| cache: true --> -->
+<!-- <!-- post_ex |> compute_historical_decompositions() |> plot() --> -->
+<!-- <!-- ``` --> -->
+
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Extended SVAR-SV results. -->
+
+<!-- ```{r ex_ss} -->
+<!-- #| cache: true -->
+<!-- post_ex |> compute_structural_shocks() |> plot(probability = 0.68) -->
+<!-- ``` -->
+
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Extended SVAR-SV results. -->
+
+<!-- ```{r ex_csd} -->
+<!-- #| cache: true -->
+<!-- post_ex |> compute_conditional_sd() |> plot(probability = 0.68) -->
+<!-- ``` -->
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Extended SVAR-SV results. -->
+
+<!-- ### Verify if shocks are homoskedastic. -->
+
+<!-- $$ -->
+<!-- SDDR = \frac{p(\omega_n = 0\mid data)}{p(\omega_n = 0)} -->
+<!-- $$ -->
+
+
+<!-- ```{r ex_sddr} -->
+<!-- #| cache: true -->
+<!-- post_ex |> verify_volatility() -> sddr -->
+<!-- vv = cbind(sddr$logSDDR, 1 / (1 + exp(sddr$logSDDR))) -->
+<!-- colnames(vv) = c("log(SDDR)", "Pr[w_n != 0|data]") -->
+<!-- rownames(vv) = paste0("shock ", 1:N) -->
+<!-- round(vv, 3) -->
+<!-- ``` -->
+
+
+
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Extended SVAR-SV results. -->
+
+<!-- ```{r ex_fv} -->
+<!-- #| cache: true -->
+<!-- post_ex |> compute_fitted_values() |> plot(probability = 0.68) -->
+<!-- ``` -->
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Extended SVAR-SV results. -->
+
+<!-- ```{r ex_forex} -->
+<!-- #| cache: true -->
+<!-- #| echo: false -->
+
+<!-- specx <- specify_bsvar$new(x[,1:4], p = 1) -->
+<!-- postx <- estimate(specx, S = 500, show_progress = FALSE) |> forecast(horizon = 7) -->
+<!-- xfore <- apply(postx$forecasts, 1:2, mean) -->
+<!-- xf <- t(rbind(xfore[,2:7],xfore[,1:6])) -->
+<!-- ``` -->
+
+
+<!-- ```{r ex_fore} -->
+<!-- #| cache: true -->
+<!-- post_ex |> forecast(horizon = 6, exogenous_forecast = xf) |> plot(probability = 0.68, data_in_plot = 0.1) -->
+<!-- ``` -->
+
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Extended SVAR-SV results. -->
+
+<!-- ### Verify if exogenous variables are needed with SDDR. -->
+
+<!-- $$ -->
+<!-- SDDR = \frac{p(\mathbf{A}_d = \mathbf{0}_{N \times d}\mid data)}{p(\mathbf{A}_d = \mathbf{0}_{N \times d})} -->
+<!-- $$ -->
+<!-- ```{r sddr_ex} -->
+<!-- #| cache: true -->
+
+<!-- A0 = array(NA, dim(A_ols)) -->
+<!-- A0[,50:57] = 0 -->
+<!-- post_ex |> verify_autoregression(hypothesis = A0) -> sddr_Ad -->
+<!-- vv = cbind(sddr_Ad$logSDDR, 1 / (1 + exp(sddr_Ad$logSDDR))) -->
+<!-- colnames(vv) = c("log(SDDR)", "Pr[A_d != 0|data]") -->
+<!-- rownames(vv) = paste0("H0: A_d = 0") -->
+<!-- round(vv, 3) -->
+
+<!-- ``` -->
+
+
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Extended SVAR-SV results. -->
+
+<!-- ### Verify if $EX_t$ Granger causes $\Delta rgdp_t$. -->
+
+<!-- $$ -->
+<!-- SDDR = \frac{p(\mathbf{A}_{1.14} = \dots = \mathbf{A}_{12.14} = 0\mid data)}{p(\mathbf{A}_{1.14} = \dots = \mathbf{A}_{12.14} = 0)} -->
+<!-- $$ -->
+
+<!-- ```{r sddr_gc} -->
+<!-- #| cache: true -->
+
+<!-- A0 = array(NA, dim(A_ols)) -->
+<!-- A0[1,seq(from = 4, to = 48, by = 4)] = 0 -->
+<!-- post_ex |> verify_autoregression(hypothesis = A0) -> sddr_Gc -->
+<!-- vv = cbind(sddr_Gc$logSDDR, 1 / (1 + exp(sddr_Gc$logSDDR))) -->
+<!-- colnames(vv) = c("log(SDDR)", "Pr[A_{i.14} != 0|data] for all i") -->
+<!-- rownames(vv) = paste0("H0: A_{i.14} = 0") -->
+<!-- round(vv, 3) -->
+<!-- ``` -->
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Lower-triangular SVAR-SV results. -->
+
+<!-- ```{r lt_irf} -->
+<!-- #| cache: true -->
+<!-- post_lt |> compute_impulse_responses(horizon = 24) |> plot(probability = 0.68) -->
+<!-- ``` -->
+
+
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+
+<!-- ### Unrestricted SVAR-SV results. -->
+
+<!-- ```{r ur_irf} -->
+<!-- #| cache: true -->
+<!-- post_ur |> compute_impulse_responses(horizon = 24) |> plot(probability = 0.68) -->
+```
+
+
+##  {background-color="#0056B9"}
+
+![](bsvars.png){.absolute top=40 right=10 width="500"}
+![](bsvarSIGNs.png){.absolute top=40 right=540 width="500"}
