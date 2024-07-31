@@ -407,23 +407,26 @@
 <h2></h2>
 <p><span class="math display">\[ \]</span></p>
 <p><span class="math display">\[ \]</span></p>
-<h3 style="color:white;" id="lecture-slides-as-a-website">Lecture Slides <a href="https://bsvars.github.io/2024-05-bsvars-mcxs/" style="color:#FFD800;">as a Website</a></h3>
-<h3 style="color:white;" id="github-repo-to-reproduce-the-slides-and-results">GitHub <a href="https://github.com/bsvars/2024-05-bsvars-mcxs" style="color:#FFD800;">repo</a> to reproduce the slides and results</h3>
+<h3 style="color:white;" id="slides-as-a-website">Slides <a href="https://bsvars.github.io/2024-08-bsvars-w4UKR/" style="color:#FFD800;">as a Website</a></h3>
+<h3 style="color:white;" id="github-repo-to-reproduce-the-slides-and-results">GitHub <a href="https://github.com/bsvars/2024-08-bsvars-w4UKR" style="color:#FFD800;">repo</a> to reproduce the slides and results</h3>
+<h3 style="color:white;" id="r-script-to-reproduce-empirical-results"><a href="https://github.com/bsvars/2024-08-bsvars-w4UKR/blob/main/w4UKR_empirical.R" style="color:#FFD800;"><strong>R</strong> script</a> to reproduce empirical results</h3>
 </section>
-<section id="section-3" class="slide level2" data-background-color="#0056B9">
-<h2></h2>
-<h3 style="color:white;" id="bsvars-package-features-1"><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> package features</h3>
+<section id="bsvars-package-features-1" class="slide level2" data-background-color="#0056B9">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> package features</h2>
 </section>
-<section id="section-4" class="slide level2">
+<section id="section-3" class="slide level2">
 <h2></h2>
-<p><img data-src="bsvars_cran.png" class="absolute" style="top: 10px; right: 30px; width: 1000px; "></p>
+<p><img data-src="cran.png" class="absolute" style="top: 10px; right: 30px; width: 1000px; "></p>
 </section>
 <section id="bsvars-package-features-2" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> package features</h2>
 <p><span class="math display">\[ \]</span></p>
 <h3 id="bayesian-estimation-of-structural-vars">- Bayesian estimation of Structural VARs</h3>
-<h3 id="seven-heteroskedastic-processes">- seven heteroskedastic processes</h3>
-<h3 id="identification-through-exclusion-restrictions-heteroskedasticity-and-non-normality">- identification through exclusion restrictions, heteroskedasticity, and non-normality</h3>
+<h3 id="volatility-3-non-normal-models-for-shocks">- 5 volatility &amp; 3 non-normal models for shocks</h3>
+<h3 id="identification-using">- identification using</h3>
+<h4 id="exclusion-restrictions">- exclusion restrictions</h4>
+<h4 id="heteroskedasticity">- heteroskedasticity</h4>
+<h4 id="and-non-normality">- and non-normality</h4>
 <h3 id="efficient-and-fast-gibbs-samplers">- efficient and fast Gibbs samplers</h3>
 </section>
 <section id="bsvars-package-features-3" class="slide level2">
@@ -437,17 +440,19 @@
 <section id="bsvars-package-features-4" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> package features</h2>
 <p><span class="math display">\[ \]</span></p>
-<h3 id="package-and-loading">- package and loading</h3>
-<h3 id="simple-model-setup">- simple model setup</h3>
-<h3 id="simple-estimation">- simple estimation</h3>
+<h3 id="package-and-data-loading">- package and data loading</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bsvars)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(us_fiscal_lsuw)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>spec <span class="ot">=</span> specify_bsvar<span class="sc">$</span><span class="fu">new</span>(us_fiscal_lsuw)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>burn <span class="ot">=</span> <span class="fu">estimate</span>(spec, <span class="at">S =</span> <span class="dv">1000</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>post <span class="ot">=</span> <span class="fu">estimate</span>(burn, <span class="at">S =</span> <span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(us_fiscal_lsuw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<h3 id="simple-model-setup">- simple model setup</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>spec <span class="ot">=</span> specify_bsvar<span class="sc">$</span><span class="fu">new</span>(us_fiscal_lsuw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<h3 id="simple-estimation">- simple estimation</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>burn <span class="ot">=</span> <span class="fu">estimate</span>(spec, <span class="at">S =</span> <span class="dv">1000</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>post <span class="ot">=</span> <span class="fu">estimate</span>(burn, <span class="at">S =</span> <span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="bsvars-package-features-5" class="slide level2">
@@ -455,16 +460,22 @@
 <p><span class="math display">\[ \]</span></p>
 <h3 id="structural-analyses">- structural analyses</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>irfs <span class="ot">=</span> <span class="fu">compute_impulse_responses</span>(post , <span class="at">horizon =</span> <span class="dv">12</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fevd <span class="ot">=</span> <span class="fu">compute_variance_decompositions</span>(post, <span class="at">horizon =</span> <span class="dv">12</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>hds  <span class="ot">=</span> <span class="fu">compute_historical_decompositions</span>(post)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>ss   <span class="ot">=</span> <span class="fu">compute_structural_shocks</span>(post)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>csds <span class="ot">=</span> <span class="fu">compute_conditional_sd</span>(post)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>irfs <span class="ot">=</span> <span class="fu">compute_impulse_responses</span>(post , <span class="at">horizon =</span> <span class="dv">12</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fevd <span class="ot">=</span> <span class="fu">compute_variance_decompositions</span>(post, <span class="at">horizon =</span> <span class="dv">12</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>hds  <span class="ot">=</span> <span class="fu">compute_historical_decompositions</span>(post)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ss   <span class="ot">=</span> <span class="fu">compute_structural_shocks</span>(post)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>csds <span class="ot">=</span> <span class="fu">compute_conditional_sd</span>(post)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>sddr <span class="ot">=</span> <span class="fu">verify_identification</span>(post)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <h3 id="predictive-analyses">- predictive analyses</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fvs  <span class="ot">=</span> <span class="fu">compute_fitted_values</span>(post)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fore <span class="ot">=</span> <span class="fu">forecast</span>(post, <span class="at">horizon =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fvs  <span class="ot">=</span> <span class="fu">compute_fitted_values</span>(post)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>fore <span class="ot">=</span> <span class="fu">forecast</span>(post, <span class="at">horizon =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<h3 id="plots-and-summaries">- plots and summaries</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(irfs)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(irfs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="bsvars-package-features-6" class="slide level2">
@@ -472,35 +483,75 @@
 <p><span class="math display">\[ \]</span></p>
 <h3 id="workflow-with-the-pipe">- workflow with the pipe</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bsvars)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(us_fiscal_lsuw)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>us_fiscal_lsuw <span class="sc">|&gt;</span> </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  specify_bsvar<span class="sc">$</span><span class="fu">new</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate</span>(<span class="at">S =</span> <span class="dv">1000</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate</span>(<span class="at">S =</span> <span class="dv">10000</span>) <span class="ot">-&gt;</span> post</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_impulse_responses</span>(<span class="at">horizon =</span> <span class="dv">12</span>) <span class="ot">-&gt;</span> irfs</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_variance_decompositions</span>(<span class="at">horizon =</span> <span class="dv">12</span>) <span class="ot">-&gt;</span> fevd</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_historical_decompositions</span>() <span class="ot">-&gt;</span> hds</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_structural_shocks</span>() <span class="ot">-&gt;</span> ss</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_conditional_sd</span>() <span class="ot">-&gt;</span> csds</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">forecast</span>(<span class="at">horizon =</span> <span class="dv">4</span>) <span class="ot">-&gt;</span> fore</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bsvars)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(us_fiscal_lsuw)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>us_fiscal_lsuw <span class="sc">|&gt;</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  specify_bsvar<span class="sc">$</span><span class="fu">new</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate</span>(<span class="at">S =</span> <span class="dv">1000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate</span>(<span class="at">S =</span> <span class="dv">10000</span>) <span class="ot">-&gt;</span> post</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_impulse_responses</span>(<span class="at">horizon =</span> <span class="dv">12</span>) <span class="ot">-&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_variance_decompositions</span>(<span class="at">horizon =</span> <span class="dv">12</span>) <span class="ot">-&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_historical_decompositions</span>() <span class="ot">-&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_structural_shocks</span>() <span class="ot">-&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_conditional_sd</span>() <span class="ot">-&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">forecast</span>(<span class="at">horizon =</span> <span class="dv">12</span>) <span class="ot">-&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">verify_identification</span>() <span class="ot">-&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="bsvars-package-features-7" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> package features</h2>
+<p><span class="math display">\[ \]</span></p>
+<h3 id="specify-different-models">- specify different models</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>spec1 <span class="ot">=</span> specify_bsvar<span class="sc">$</span><span class="fu">new</span>(us_fiscal_lsuw, <span class="at">p =</span> <span class="dv">4</span>)                  <span class="co"># SVAR(4)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>spec2 <span class="ot">=</span> specify_bsvar_sv<span class="sc">$</span><span class="fu">new</span>(us_fiscal_lsuw)                      <span class="co"># SVAR(1)-SV</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>spec3 <span class="ot">=</span> specify_bsvar_t<span class="sc">$</span><span class="fu">new</span>(us_fiscal_lsuw, <span class="at">p =</span> <span class="dv">2</span>)                <span class="co"># SVAR(2)-t</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>spec4 <span class="ot">=</span> specify_bsvar_msh<span class="sc">$</span><span class="fu">new</span>(us_fiscal_lsuw, <span class="at">M =</span> <span class="dv">2</span>)              <span class="co"># SVAR(1)-MSH(2)</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>spec5 <span class="ot">=</span> specify_bsvar_msh<span class="sc">$</span><span class="fu">new</span>(us_fiscal_lsuw, <span class="at">finiteM =</span> <span class="cn">FALSE</span>)    <span class="co"># SVAR(1)-MSH(Inf)</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>spec6 <span class="ot">=</span> specify_bsvar_mix<span class="sc">$</span><span class="fu">new</span>(us_fiscal_lsuw, <span class="at">M =</span> <span class="dv">2</span>)              <span class="co"># SVAR(1)-MIX(2)</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>spec7 <span class="ot">=</span> specify_bsvar_mix<span class="sc">$</span><span class="fu">new</span>(us_fiscal_lsuw, <span class="at">finiteM =</span> <span class="cn">FALSE</span>)    <span class="co"># SVAR(1)-MIX(Inf)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<h3 id="from-now-on-its-the-same-e.g.">- from now on it’s the same, e.g.</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>spec1 <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate</span>(<span class="at">S =</span> <span class="dv">1000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate</span>(<span class="at">S =</span> <span class="dv">10000</span>) <span class="ot">-&gt;</span> post</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>spec2 <span class="sc">|&gt;</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate</span>(<span class="at">S =</span> <span class="dv">1000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate</span>(<span class="at">S =</span> <span class="dv">10000</span>) <span class="ot">-&gt;</span> post</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="bsvars-package-features-8" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> package features</h2>
 <h3 id="progress-bar">- progress bar</h3>
 <p><img data-src="bsvars_progress.png" class="absolute" style="top: 150px; right: 100px; width: 900px; "></p>
 </section>
-<section id="section-5" class="slide level2" data-background-color="#0056B9">
-<h2></h2>
-<h3 style="color:white;" id="bsvars-models-and-identification-1"><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> models and identification</h3>
+<section id="bsvars-models-and-identification-1" class="slide level2" data-background-color="#0056B9">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> models and identification</h2>
 </section>
 <section id="bsvars-models" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> models</h2>
 <p><span class="math display">\[ \]</span></p>
 <h3 id="structural-var">Structural VAR</h3>
+<p><span class="math display">\[\begin{align}
+\text{reduced form:}&amp;&amp;\mathbf{y}_t &amp;= \mathbf{A}_1\mathbf{y}_{t-1} + \dots + \mathbf{A}_p\mathbf{y}_{t-p} + \mathbf{A}_d\mathbf{d}_{t} + \boldsymbol{\varepsilon}_t \\
+\text{structural form:}&amp;&amp;\mathbf{B}_0\boldsymbol{\varepsilon}_t &amp;= \mathbf{u}_t
+\end{align}\]</span></p>
+<ul>
+<li>system modelling of dependent variables <span class="math inline">\(\mathbf{y}_t\)</span></li>
+<li>system dynamics captured by modeling effects of lags <span class="math inline">\(\mathbf{y}_{t-1},\dots,\mathbf{y}_{t-p}\)</span></li>
+<li>deterministic terms and exogenous variables <span class="math inline">\(\mathbf{d}_{t}\)</span></li>
+<li>economic structure introduced by structural matrix <span class="math inline">\(\mathbf{B}_0\)</span></li>
+<li>well-isolated structural shocks <span class="math inline">\(\mathbf{u}_t\)</span></li>
+</ul>
+</section>
+<section id="bsvars-models-1" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> models</h2>
+<p><span class="math display">\[ \]</span></p>
+<h3 id="structural-var-1">Structural VAR</h3>
 <p><span class="math display">\[\begin{align}
 \text{reduced form:}&amp;&amp;\mathbf{y}_t &amp;= \mathbf{A}\mathbf{x}_t + \boldsymbol{\varepsilon}_t \\
 \text{structural form:}&amp;&amp;\mathbf{B}_0\boldsymbol{\varepsilon}_t &amp;= \mathbf{u}_t \\
@@ -508,11 +559,16 @@
 \end{align}\]</span></p>
 <ul>
 <li>interpretable structural specification</li>
-<li>identification through exclusion restrictions, heteroskedasticity, and/or non-normality</li>
+<li>identification through
+<ul>
+<li>exclusion restrictions</li>
+<li>heteroskedasticity</li>
+<li>non-normality</li>
+</ul></li>
 <li>facilitates application of frontier numerical techniques</li>
 </ul>
 </section>
-<section id="bsvars-models-1" class="slide level2">
+<section id="bsvars-models-2" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> models</h2>
 <h3 id="reduced-form-hierarchical-prior">Reduced form hierarchical prior</h3>
 <p><span class="math display">\[\begin{align}
@@ -527,12 +583,12 @@
 <li>3-level equation-specific local-global hierarchical prior</li>
 </ul>
 </section>
-<section id="bsvars-models-2" class="slide level2">
+<section id="bsvars-models-3" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> models</h2>
 <h3 id="structural-form-hierarchical-prior">Structural form hierarchical prior</h3>
 <p><span class="math display">\[\begin{align}
-\text{exclusion restrictions:}&amp;&amp; [\mathbf{B}_0]_{n\cdot} = \mathbf{b}_n\mathbf{V}_n\\
-\text{structural relations:}&amp;&amp; \mathbf{B}_0\mid\gamma_{B.1},\dots,\gamma_{B.N} &amp;\sim |\det(\mathbf{B}_0)|^{\underline{\nu}_B - N}\exp\left\{-\frac{1}{2} \sum_{n=1}^{N} \gamma_{B.n}^{-1} \mathbf{b}_n\mathbf{b}_n' \right\} \\
+\text{exclusion restrictions:}&amp;&amp; [\mathbf{B}_0]_{n\cdot} &amp;= \mathbf{b}_n\mathbf{V}_n\\
+\text{structural relations:}&amp;&amp; \mathbf{B}_0\mid\gamma_{B}&amp;\sim |\det(\mathbf{B}_0)|^{\underline{\nu}_B - N}\exp\left\{-\frac{1}{2} \sum_{n=1}^{N} \gamma_{B.n}^{-1} \mathbf{b}_n\mathbf{b}_n' \right\} \\
 \text{structural shrinkage:}&amp;&amp;\gamma_{B.n} | s_{B.n}  &amp;\sim IG2\left(s_{B.n}, \underline{\nu}_b\right)\\
 \text{local scale:}&amp;&amp;s_{B.n} | s_{B} &amp;\sim G\left(s_{B}, \underline{a}_B\right)\\
 \text{global scale:}&amp;&amp;s_{B} &amp;\sim IG2\left(\underline{s}_{s_B}, \underline{\nu}_{s_B}\right)
@@ -544,9 +600,8 @@
 <li>3-level equation-specific local-global hierarchical prior</li>
 </ul>
 </section>
-<section id="bsvars-models-3" class="slide level2">
+<section id="bsvars-models-4" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> models</h2>
-<p><span class="math display">\[ \]</span></p>
 <h3 id="volatility-models">Volatility models</h3>
 <ul>
 <li>Homoskedastic <span class="math inline">\(\sigma_{n.t}^2 = 1\)</span></li>
@@ -556,20 +611,19 @@
 </ul>
 <h3 id="non-normal-models">Non-normal models</h3>
 <ul>
+<li>Student-t shocks</li>
 <li>Finite mixture of normal components</li>
 <li>Sparse mixture of normal components</li>
 </ul>
 </section>
-<section id="bsvars-models-4" class="slide level2">
+<section id="bsvars-models-5" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> models</h2>
+<p><span class="math display">\[ \]</span></p>
 <h3 id="non-centred-stochastic-volatility">Non-centred Stochastic Volatility</h3>
 <p><span class="math display">\[\begin{align}
 \text{conditional variance:}&amp;&amp;\sigma_{n.t}^2 &amp;= \exp\left\{\omega_n h_{n.t}\right\}\\
 \text{log-volatility:}&amp;&amp;h_{n.t} &amp;= \rho_n h_{n.t-1} + v_{n.t}\\
-\text{volatility innovation:}&amp;&amp;\tilde{v}_{n.t}&amp;\sim N\left(0,1\right)\\
-\text{autoregression:}&amp;&amp;\rho_n &amp;\sim U(-1,1)\\
-\text{volatility of the log-volatility:}&amp;&amp;\omega_n\mid \sigma_{\omega.n}^2 &amp;\sim N\left(0, \sigma_{\omega.n}^2\right)\\
-\text{hierarchy:}&amp;&amp;\sigma_{\omega.n}^2 \mid s_\sigma&amp;\sim G(s_\sigma, \underline{a}_\sigma)
+\text{volatility innovation:}&amp;&amp;v_{n.t}&amp;\sim N\left(0,1\right)\\
 \end{align}\]</span></p>
 <ul>
 <li>excellent volatility forecasting performance</li>
@@ -577,16 +631,14 @@
 <li>homoskedasticity verification by testing <span class="math inline">\(\omega_n = 0\)</span></li>
 </ul>
 </section>
-<section id="bsvars-models-5" class="slide level2">
+<section id="bsvars-models-6" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> models</h2>
+<p><span class="math display">\[ \]</span></p>
 <h3 id="centred-stochastic-volatility">Centred Stochastic Volatility</h3>
 <p><span class="math display">\[\begin{align}
 \text{conditional variance:}&amp;&amp;\sigma_{n.t}^2 &amp;= \exp\left\{\tilde{h}_{n.t}\right\}\\
 \text{log-volatility:}&amp;&amp;\tilde{h}_{n.t} &amp;= \rho_n \tilde{h}_{n.t-1} + \tilde{v}_{n.t}\\
 \text{volatility innovation:}&amp;&amp;\tilde{v}_{n.t}&amp;\sim N\left(0,\sigma_v^2\right)\\
-\text{autoregression:}&amp;&amp;\rho_n &amp;\sim U(-1,1)\\
-\text{volatility of the log-volatility:}&amp;&amp;\sigma_v^2 \mid s_v &amp;\sim IG2(s_v, \underline{a}_v)\\
-\text{hierarchy:}&amp;&amp;s_v \mid s_\sigma &amp;\sim G(s_\sigma, \underline{a}_\sigma)
 \end{align}\]</span></p>
 <ul>
 <li>excellent volatility forecasting performance</li>
@@ -594,7 +646,7 @@
 <li>no homoskedasticity verification available</li>
 </ul>
 </section>
-<section id="bsvars-models-6" class="slide level2">
+<section id="bsvars-models-7" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> models</h2>
 <h3 id="stochastic-volatility-conditional-variances">Stochastic Volatility: conditional variances</h3>
 
@@ -675,7 +727,7 @@
 <ul>
 <li><span class="math inline">\(\mathbf\Sigma_1\)</span> and <span class="math inline">\(\mathbf\Sigma_2\)</span> contain <span class="math inline">\(N^2+N\)</span> unique elements</li>
 <li>All <span class="math inline">\(N^2\)</span> elements of <span class="math inline">\(\mathbf{B}_0\)</span> can be estimated</li>
-<li>Both <span class="math inline">\(N\)</span>-vectors <span class="math inline">\(\boldsymbol\sigma_1^2\)</span> and <span class="math inline">\(\boldsymbol\sigma_2^2\)</span> can be estimated due to additional restriction: <span class="math inline">\(E\left[\text{diag}\left(\boldsymbol\sigma_i^2\right)\right] = \mathbf{I}_N\)</span></li>
+<li>Both <span class="math inline">\(N\)</span>-vectors <span class="math inline">\(\boldsymbol\sigma_1^2\)</span> and <span class="math inline">\(\boldsymbol\sigma_2^2\)</span> can be estimated due to additional restriction: <span class="math inline">\(\boldsymbol\sigma_i^2 \approx \boldsymbol\imath_N\)</span></li>
 </ul>
 </section>
 <section id="bsvars-identification-simplified-5" class="slide level2">
@@ -694,11 +746,45 @@ u_t |Y_{t-1} &amp;\sim N_N\left(\mathbf{0}_N, \text{diag}\left(\boldsymbol\sigma
 <h3 id="heteroskedasticity-modeling.">Heteroskedasticity Modeling.</h3>
 <p>Choose any (conditional) variance model for <span class="math inline">\(\boldsymbol\sigma_t^2\)</span> that fits the data well.</p>
 </section>
+<section id="bsvars-identification-simplified-6" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> identification (simplified)</h2>
+<p><span class="math display">\[ \]</span></p>
+<h3 id="identification-through-non-normality.">Identification through Non-normality.</h3>
+<p><span class="math display">\[\begin{align}
+\text{structural shocks:}&amp;&amp;\mathbf{u}_t\mid\mathbf{x}_t &amp;\sim t\left( \mathbf{0}_N, \mathbf{I}_N, \nu \right)
+\end{align}\]</span></p>
+<ul>
+<li><span class="math inline">\(\nu\)</span> - the degrees of freedom parameter is estimated</li>
+<li>fat tails provide identification information</li>
+<li>potential gains in forecasting precision</li>
+<li>robustness to outliers</li>
+<li>verify identification by checking <span class="math inline">\(\nu \rightarrow\infty\)</span></li>
+</ul>
+</section>
+<section id="bsvars-identification-simplified-7" class="slide level2" data-background-color="#0056B9">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> identification (simplified)</h2>
+<h3 style="color:#FFFFFF;" id="identification-through-non-normality.-1">Identification through Non-normality.</h3>
+
+<img data-src="index_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
 <section id="bsvars-identification-verification" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> identification verification</h2>
-<h3 id="non-centred-stochastic-volatility.">Non-centred Stochastic Volatility.</h3>
+<p><span class="math display">\[ \]</span></p>
+<h3 id="savage-dickey-density-ratio.">Savage-Dickey Density Ratio.</h3>
+<p>Verify the restriction through the posterior odds ratio using the SDDR: <span class="math display">\[
+SDDR = \frac{\Pr[H_0 | data]}{\Pr[H_1 | data]}= \frac{p(H_0 | data)}{p(H_0 )}
+\]</span></p>
+<ul>
+<li>suitable to verify sharp restrictions on parameters</li>
+<li>is interpreted as posterior odds ratio</li>
+<li>values greater than 1 provide evidence in favor of the restriction</li>
+<li>simple to compute given the unrestricted model estimation output</li>
+</ul>
+</section>
+<section id="bsvars-identification-verification-1" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> identification verification</h2>
+<h3 id="in-non-centred-stochastic-volatility.">…in non-centred Stochastic Volatility.</h3>
 <p>A structural shock is homoskedastic if <span class="math display">\[
-\omega_n = 0
+H_0:\quad\omega_n = 0
 \]</span></p>
 <p><span class="math display">\[ \]</span></p>
 <ul>
@@ -706,228 +792,303 @@ u_t |Y_{t-1} &amp;\sim N_N\left(\mathbf{0}_N, \text{diag}\left(\boldsymbol\sigma
 <li>the only homoskedastic shock in the system is identified</li>
 <li>two or more homoskedastic shocks have not identified through heteroskedasticity</li>
 <li>heteroskedastic shocks are identified with probability 1</li>
+<li>use the <code>verify_identification()</code> function</li>
 </ul>
 </section>
-<section id="bsvars-identification-verification-1" class="slide level2">
+<section id="bsvars-identification-verification-2" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> identification verification</h2>
-<h3 id="savage-dickey-density-ratio.">Savage-Dickey Density Ratio.</h3>
-<p>Verify the restriction through the posterior odds ratio using the SDDR: <span class="math display">\[
-SDDR = \frac{\Pr[\omega_n = 0 | data]}{\Pr[\omega_n \neq 0 | data]}= \frac{p(\omega_n = 0 | data)}{p(\omega_n = 0 )}
+<h3 id="in-t-distributed-shocks-model.">…in t-distributed shocks model.</h3>
+<p>A structural shock is homoskedastic if <span class="math display">\[
+H_0:\quad\nu \rightarrow\infty
 \]</span></p>
-<p>Estimate the marginal prior and posterior ordinate using analytical or numerical integration: <span class="math display">\[\begin{align}
-\hat{p}(\omega_n = 0 | data) &amp;= \frac{1}{S}\sum_{s=1}^S p(\omega_n = 0 | data, \mathbf{A}^{(s)}, \mathbf{B}_0^{(s)}, \dots)\\
-\lim\limits_{\omega_n\rightarrow 0}\hat{p}(\omega_n = 0) &amp;= \Gamma\left(\underline{a}_{\sigma}+\frac{3}{2}\right)\left[\sqrt{2\pi s_{\sigma}}\left(\underline{a}_{\sigma}^2-\frac{1}{4}\right)\Gamma\left(\underline{a}_{\sigma}\right)\right]^{-1}
+<p><span class="math display">\[ \]</span></p>
+<ul>
+<li>if <span class="math inline">\(\nu \rightarrow\infty\)</span> all the shocks are normal</li>
+<li>when <span class="math inline">\(\nu\)</span> is finite and less than 30, the shocks are leptokurtic</li>
+<li>then all the shocks are identified through non-normality</li>
+<li>SDDR derivations and computation require some fancy stats</li>
+<li>use the <code>verify_identification()</code> function</li>
+</ul>
+</section>
+<section id="bsvars-hypothesis-verification" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> hypothesis verification</h2>
+<h3 id="for-autoregressive-parameters.">…for autoregressive parameters.</h3>
+<p>A structural shock is homoskedastic if <span class="math display">\[
+H_0:\quad\mathbf{S}\text{vec}(\mathbf{A})  = \mathbf{r}
+\]</span></p>
+<p><span class="math display">\[ \]</span></p>
+<ul>
+<li>verify restrictions on the autoregressive parameters</li>
+<li>can be used, e.g., to verify Granger causality</li>
+<li>use the <code>verify_autoregression()</code> function</li>
+</ul>
+</section>
+<section id="bsvars-modeling-of-monetary-policy-1" class="slide level2" data-background-color="#0056B9">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+</section>
+<section id="bsvars-modeling-of-monetary-policy-2" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="domestic-economy.">Domestic economy.</h3>
+<p>Consider a system of five domestic variables:</p>
+<p><span class="math display">\[\begin{align}
+y_t = \begin{bmatrix} rgdp_t &amp; cpi_t &amp; CR_t &amp; EX_t &amp; aord_t \end{bmatrix}'
 \end{align}\]</span></p>
-<!-- ##  {background-color="#0056B9"} -->
-<!-- ### [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy {style="color:white;"} -->
-<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
-<!-- Consider a system of four variables: -->
-<!-- \begin{align} -->
-<!-- y_t = \begin{bmatrix} \Delta rgdp_t & \pi_t & CR_t & EX_t \end{bmatrix}' -->
-<!-- \end{align} -->
-<!-- - $\Delta rgdp_t$ - real Gross Domestic Product growth -->
-<!-- - $\pi_t$ - Consumer Price Index inflation rate -->
-<!-- - $CR_t$ - Cash Rate Target - Australian nominal interest rate -->
-<!-- - $EX_t$ - USD/AUD exchange rate -->
-<!-- $$ $$  -->
-<!-- - monthly data from July 1969 to September 2023 -->
-<!-- - quarterly variables interpolated to monthly frequency -->
-<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
-<!-- ```{r oz_data} -->
-<!-- #| echo: false -->
-<!-- #| warning: false -->
-<!-- #| message: false -->
-<!-- #| cache: true -->
-<!-- # interpolate quarterly inflation and gdp to monthly -->
-<!-- ############################################################ -->
-<!-- create_interpolated_series <- function(data, start_date, end_date) { -->
-<!--   # function to interpolate quarterly to monthly data -->
-<!--   # start_date and end_date need to be given as a character with format "YYYY-MM-DD" -->
-<!--   # data object to merge by data all time series -->
-<!--   df <- data.frame(date = seq(as.Date(start_date), as.Date(end_date), by = "months")) -->
-<!--   df <- dplyr::left_join(df, data, by = "date")   -->
-<!--   ## interpolate GDP series -->
-<!--   # first shift GDP series such that Q1 is assigned to March etc -->
-<!--   df$X   = c(rep(NA,2), df$value[1:(length(df$value) - 2)]) -->
-<!--   # now interpolate, taking into account leading and trailing NA values -->
-<!--   df <- dplyr::mutate(df, value_out = c(rep(NA, min(which(!is.na(df$X))) - 1), -->
-<!--                                         zoo::na.approx(df$X), -->
-<!--                                         rep(NA, length(df$date) - max(which(!is.na(df$X)))) -->
-<!--   ) -->
-<!--   ) -->
-<!--   df <- dplyr::select(df, c(date, value_out)) -->
-<!--   df -->
-<!-- } -->
-<!-- # colours  -->
-<!-- ############################################################ -->
-<!-- N           = 4 -->
-<!-- bsvars_pink = "#0056B9" -->
-<!-- bsvars_yell = "#FFD800" -->
-<!-- bsvars_grad = grDevices::colorRampPalette(c("#0056B9", "#FFD800"))(N) -->
-<!-- # Australian data -->
-<!-- ############################################################ -->
-<!-- start_date = "1950-01-01" -->
-<!-- end_date   = "2024-05-01" -->
-<!-- # QUARTERLY -->
-<!-- # Real Gross Domestic Product for Australia (Domestic Currency, Seasonally Adjusted) -->
-<!-- aud_gdp   = fredr::fredr("NGDPRSAXDCAUQ") -->
-<!-- df_au_gdp = create_interpolated_series(aud_gdp, start_date, end_date) -->
-<!-- aud_gdp   = xts::xts(df_au_gdp$value, df_au_gdp$date, tclass = 'yearmon') -->
-<!-- aud_gdp   = xts::to.monthly(aud_gdp, OHLC = FALSE, drop.time = TRUE) -->
-<!-- aud_gdp   = na.omit(12 * 100 * diff(log(aud_gdp))) -->
-<!-- rm(df_au_gdp) -->
-<!-- # QUARTERLY -->
-<!-- # Consumer Price Index: All Items: Total: Total for Australia (Index 2015=100, Not Seasonally Adjusted) -->
-<!-- aud_cpi   = fredr::fredr("AUSCPIALLQINMEI") -->
-<!-- df_au_cpi = create_interpolated_series(aud_cpi, start_date, end_date) -->
-<!-- aud_cpi   = xts::xts(df_au_cpi$value, df_au_cpi$date, tclass = 'yearmon') -->
-<!-- aud_cpi   = xts::to.monthly(aud_cpi, OHLC = FALSE, drop.time = TRUE) -->
-<!-- aud_pi   = na.omit(12 * 100 * diff(log(aud_cpi))) -->
-<!-- rm(df_au_cpi) -->
-<!-- # 3-Month or 90-day Rates and Yields: Interbank Rates for Australia (Percent, Not Seasonally Adjusted)  -->
-<!-- aud_IR    = fredr::fredr("IR3TIB01AUM156N") -->
-<!-- aud_IR    = xts::xts(aud_IR$value, aud_IR$date, tclass = 'yearmon') -->
-<!-- # exchange rate -->
-<!-- aud_USD   = readrba::read_rba(series_id = "FXRUSD") -->
-<!-- aud_USD   = xts::xts(aud_USD$value, aud_USD$date, tclass = 'yearmon') -->
-<!-- aud_USD   = xts::to.monthly(aud_USD, OHLC = FALSE, drop.time = TRUE) -->
-<!-- y               = na.omit(merge(aud_gdp, aud_pi, aud_IR, aud_USD)) -->
-<!-- colnames(y)     = c("gdp", "pi", "IR", "USD") -->
-<!-- y         = y["1969-07/2023-09"] -->
-<!-- plot( -->
-<!--   y,  -->
-<!--   col = bsvars_grad,  -->
-<!--   lwd = 2,  -->
-<!--   main = "Australian domestic sector data",  -->
-<!--   ylab = "percent",  -->
-<!--   xlab = "time", -->
-<!--   legend.loc = "bottomleft" -->
-<!-- ) -->
-<!-- ``` -->
-<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
-<!-- ### Foreign sector. -->
-<!-- - $tot_t^{(AUD)}$ - Australian terms of trade -->
-<!-- - $\Delta rgdp_t^{(USA)}$ - U.S. real Gross Domestic Product growth -->
-<!-- - $\pi_t^{(USA)}$ - U.S. CPI inflation rate -->
-<!-- - $FFR_t$ - Federal Funds Rate -->
-<!-- $$ $$  -->
-<!-- - quarterly variables interpolated to monthly frequency -->
-<!-- - contemporaneous values and the first lag of the foreign sector variables are included as exogenous variables -->
-<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
-<!-- ```{r us_data} -->
-<!-- #| echo: false -->
-<!-- #| warning: false -->
-<!-- #| message: false -->
-<!-- #| cache: true -->
-<!-- # US data -->
-<!-- ############################################################ -->
-<!-- # QUARTERLY -->
-<!-- # real gdp -->
-<!-- gdp       = fredr::fredr("GDPC1") -->
-<!-- df_gdp    = create_interpolated_series(gdp, start_date, end_date) -->
-<!-- gdp       = xts::xts(df_gdp$value_out, df_gdp$date, tclass = 'yearmon') -->
-<!-- gdp       = xts::to.monthly(gdp, OHLC = FALSE, drop.time = TRUE) -->
-<!-- usa_gdp   = na.omit(12 * 100 * diff(log(gdp))) -->
-<!-- rm(df_gdp) -->
-<!-- # Consumer Price Index: All Items for the United States -->
-<!-- cpi       = fredr::fredr("USACPIALLMINMEI") -->
-<!-- cpi       = xts::xts(cpi$value, cpi$date, tclass = 'yearmon') -->
-<!-- usa_pi    = na.omit(12 * 100 * diff(log(cpi))) -->
-<!-- # Federal Funds Effective Rate -->
-<!-- FFR       = fredr::fredr("FEDFUNDS") -->
-<!-- usa_FFR   = xts::xts(FFR$value, FFR$date, tclass = 'yearmon') -->
-<!-- start_date = "1950-01-01" -->
-<!-- end_date   = "2024-05-01" -->
-<!-- aud_tot   = fredr::fredr("AUSLOCOTTNOSTSAM") -->
-<!-- aud_tot   = na.omit(xts::xts(aud_tot$value - 100, aud_tot$date, tclass = 'yearmon')) -->
-<!-- colnames(aud_tot) = "aud_tot" -->
-<!-- x         = na.omit(merge(aud_tot, usa_gdp, usa_pi, usa_FFR)) -->
-<!-- x         = na.omit(merge(x, lag(x))) -->
-<!-- x         = x["1969-07/2023-09"] -->
-<!-- plot( -->
-<!--   x[,1:4],  -->
-<!--   col = bsvars_grad,  -->
-<!--   lwd = 2,  -->
-<!--   main = "Foreign sector data",  -->
-<!--   ylab = "percent",  -->
-<!--   xlab = "time", -->
-<!--   legend.loc = "bottomleft" -->
-<!-- ) -->
-<!-- ``` -->
-<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
-<!-- ### Lower-triangular system. -->
-<!-- \begin{align} -->
-<!-- \begin{bmatrix} -->
-<!-- B_{0.11}&0&0&0\\ -->
-<!-- B_{0.21}&B_{0.22}&0&0\\ -->
-<!-- B_{0.31}&B_{0.32}&B_{0.33}&0\\ -->
-<!-- B_{0.41}&B_{0.42}&B_{0.43}&B_{0.44} -->
-<!-- \end{bmatrix} -->
-<!-- \begin{bmatrix} \Delta rgdp_t \\ \pi_t \\ CR_t \\ EX_t \end{bmatrix} &= \dots +  -->
-<!-- \begin{bmatrix} u_t^{ad} \\ u_t^{as} \\ u_t^{mps} \\ u_t^{ex} \end{bmatrix} -->
-<!-- \end{align} -->
-<!-- ### Identified shocks. -->
-<!-- - $u_t^{mps}$ - monetary policy shock identified via Taylor's Rule -->
-<!-- - $u_t^{ex}$ - currency shock -->
+<ul>
+<li><p><span class="math inline">\(rgdp_t\)</span> - log real Gross Domestic Product</p></li>
+<li><p><span class="math inline">\(cpi_t\)</span> - log Consumer Price Index</p></li>
+<li><p><span class="math inline">\(CR_t\)</span> - Cash Rate Target - Australian nominal interest rate</p></li>
+<li><p><span class="math inline">\(EX_t\)</span> - USD/AUD exchange rate</p></li>
+<li><p><span class="math inline">\(aord_t\)</span> - log All Ordinaries Index</p></li>
+<li><p>monthly data from August 1990 to March 2024</p></li>
+<li><p>quarterly variables interpolated to monthly frequency</p></li>
+</ul>
+</section>
+<section id="bsvars-modeling-of-monetary-policy-3" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="foreign-sector.">Foreign sector.</h3>
+<p>The foreign sector includes three US variables:</p>
+<ul>
+<li><span class="math inline">\(rgdp_t^{(US)}\)</span> - log real Gross Domestic Product</li>
+<li><span class="math inline">\(cpi_t^{(US)}\)</span> - log Consumer Price Index</li>
+<li><span class="math inline">\(FFR_t\)</span> - Cash Rate Target - Australian nominal interest rate</li>
+<li>monthly data from August 1990 to March 2024</li>
+<li>quarterly variables interpolated to monthly frequency</li>
+<li>contemporaneous and four lagged values are included in the model as exogenous variables</li>
+</ul>
+</section>
+<section id="bsvars-modeling-of-monetary-policy-4" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="lower-triangular-system.">Lower-triangular system.</h3>
+<p><span class="math display">\[\begin{align}
+\begin{bmatrix}
+B_{0.11}&amp;0&amp;0&amp;0&amp;0\\
+B_{0.21}&amp;B_{0.22}&amp;0&amp;0&amp;0\\
+B_{0.31}&amp;B_{0.32}&amp;B_{0.33}&amp;0&amp;0\\
+B_{0.41}&amp;B_{0.42}&amp;B_{0.43}&amp;B_{0.44}&amp;0\\
+B_{0.51}&amp;B_{0.52}&amp;B_{0.53}&amp;B_{0.54}&amp;B_{0.55}
+\end{bmatrix}
+\begin{bmatrix}rgdp_t \\ cpi_t \\ CR_t \\ EX_t\\ aord_t \end{bmatrix} &amp;= \dots +
+\begin{bmatrix} u_t^{ad} \\ u_t^{as} \\ u_t^{mps} \\ u_t^{ex} \\ u_t^{aord} \end{bmatrix}
+\end{align}\]</span></p>
+<h3 id="identified-shocks.">Identified shocks.</h3>
+<ul>
+<li><span class="math inline">\(u_t^{mps}\)</span> - monetary policy shock identified via Taylor’s Rule</li>
+<li><span class="math inline">\(u_t^{ex}\)</span> - currency shock</li>
+</ul>
 <!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
 <!-- ### Extended system. -->
 <!-- \begin{align} -->
 <!-- \begin{bmatrix} -->
-<!-- B_{0.11}&0&0&0\\ -->
-<!-- B_{0.21}&B_{0.22}&0&0\\ -->
-<!-- B_{0.31}&B_{0.32}&B_{0.33}&B_{0.34}\\ -->
-<!-- B_{0.41}&B_{0.42}&B_{0.43}&B_{0.44} -->
+<!-- B_{0.11}&0&0&0&0\\ -->
+<!-- B_{0.21}&B_{0.22}&0&0&0\\ -->
+<!-- B_{0.31}&B_{0.32}&B_{0.33}&B_{0.34}&0\\ -->
+<!-- B_{0.41}&B_{0.42}&B_{0.43}&B_{0.44}&0\\ -->
+<!-- B_{0.51}&B_{0.52}&B_{0.53}&B_{0.54}&B_{0.55} -->
 <!-- \end{bmatrix} -->
-<!-- \begin{bmatrix} \Delta rgdp_t \\ \pi_t \\ CR_t \\ EX_t \end{bmatrix} &= \dots +  -->
-<!-- \begin{bmatrix} u_t^{ad} \\ u_t^{as} \\ u_t^{mps} \\ u_t^{ex} \end{bmatrix} -->
+<!-- \begin{bmatrix}rgdp_t \\ cpi_t \\ CR_t \\ EX_t\\ aord_t \end{bmatrix} &= \dots + -->
+<!-- \begin{bmatrix} u_t^{ad} \\ u_t^{as} \\ u_t^{mps} \\ u_t^{ex} \\ u_t^{aord} \end{bmatrix} -->
 <!-- \end{align} -->
 <!-- ### Identified shocks. -->
 <!-- - $u_t^{mps}$ - identified via Taylor's Rule extended by exchange rate -->
 <!-- - $u_t^{ex}$ - currency shock indistinguishable from the monetary policy shock -->
 <!-- - identification through heteroskedasticity helps identifying the shocks -->
+</section>
+<section id="bsvars-modeling-of-monetary-policy-5" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="specify-and-estimate-a-lower-triangular-svar-sv.">Specify and estimate a lower-triangular SVAR-SV.</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bsvars)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"soe.rda"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>soe           <span class="ot">=</span> <span class="fu">as.matrix</span>(soe)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>TT            <span class="ot">=</span> <span class="fu">nrow</span>(soe)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>lag_order     <span class="ot">=</span> <span class="dv">8</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>lag_exogenous <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>T             <span class="ot">=</span> TT <span class="sc">-</span> <span class="fu">max</span>(lag_order, lag_exogenous)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>exogenous     <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, TT <span class="sc">-</span> lag_exogenous, <span class="dv">0</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>lag_exogenous) {</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  exogenous   <span class="ot">=</span> <span class="fu">cbind</span>(exogenous, <span class="fu">as.matrix</span>(soe[(lag_exogenous <span class="sc">-</span> i <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(TT <span class="sc">-</span> i), <span class="dv">6</span><span class="sc">:</span><span class="dv">8</span>]))</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>spec          <span class="ot">=</span> specify_bsvar_sv<span class="sc">$</span><span class="fu">new</span>(</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">data        =</span> <span class="fu">tail</span>(soe[,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], T),</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">p           =</span> lag_order,</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">exogenous   =</span> <span class="fu">tail</span>(exogenous, T)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>burn          <span class="ot">=</span> <span class="fu">estimate</span>(spec, <span class="fl">1e4</span>)</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>post          <span class="ot">=</span> <span class="fu">estimate</span>(burn, <span class="fl">1e4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="bsvars-modeling-of-monetary-policy-6" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="svar-sv-compute-and-plot-impulse-responses.">SVAR-SV: Compute and plot impulse responses.</h3>
+<div class="cell" data-hash="index_cache/revealjs/bs00_c5e3e2cb8c8dadd543c146f7ad09f603">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_impulse_responses</span>(<span class="at">horizon =</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">probability =</span> <span class="fl">0.68</span>, <span class="at">col =</span> <span class="st">"#0056B9"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/bs00-1.png" width="960" class="r-stretch"></section>
+<section id="bsvars-modeling-of-monetary-policy-7" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="svar-sv-forecast-error-variance-decompositions.">SVAR-SV: Forecast error variance decompositions.</h3>
+<div class="cell" data-hash="index_cache/revealjs/bs00fevd_caf7ac89d6f410b33db3a45bf162cc43">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_variance_decompositions</span>(<span class="at">horizon =</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> bsvars_grad)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/bs00fevd-1.png" width="960" class="r-stretch"></section>
+<section id="bsvars-modeling-of-monetary-policy-8" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="svar-sv-structural-shocks.">SVAR-SV: Structural shocks.</h3>
+<div class="cell" data-hash="index_cache/revealjs/bs00sss_02c5375743e7ab93399e46124e6cd52f">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_structural_shocks</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> <span class="st">"#0056B9"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/bs00sss-1.png" width="960" class="r-stretch"></section>
+<section id="bsvars-modeling-of-monetary-policy-9" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="svar-sv-shocks-conditional-standard-deviations.">SVAR-SV: Shocks’ conditional standard deviations.</h3>
+<div class="cell" data-hash="index_cache/revealjs/bs00csd_7679065795df084babf7c212b35560dd">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_conditional_sd</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> <span class="st">"#0056B9"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/bs00csd-1.png" width="960" class="r-stretch"></section>
+<section id="bsvars-modeling-of-monetary-policy-10" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="svar-sv-homoskedasticity-verification.">SVAR-SV: Homoskedasticity verification.</h3>
+<div class="cell" data-hash="index_cache/revealjs/bs00vv_0361e6f49f200d36857751c63aab5c02">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">verify_identification</span>() <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> **************************************************|
+ bsvars: Bayesian Structural Vector Autoregressions|
+ **************************************************|
+   Summary of identification verification          |
+     H0: omega_n = 0  [homoskedasticity]           |
+     H1: omega_n != 0 [heteroskedasticity]         |
+ **************************************************|</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           log(SDDR)       NSE  Pr[H0|data] Pr[H1|data]
+shock 1 -139.2079238 56.216891 3.489529e-61   1.0000000
+shock 2  -77.3369956 60.430724 2.588031e-34   1.0000000
+shock 3  -20.9795368 20.576286 7.739322e-10   1.0000000
+shock 4   -0.2618337  0.524091 4.349130e-01   0.5650870
+shock 5   -2.5202529  1.911860 7.445051e-02   0.9255495</code></pre>
+</div>
+</div>
+</section>
+<section id="bsvars-modeling-of-monetary-policy-11" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="svar-sv-fitted-values.">SVAR-SV: Fitted Values.</h3>
+<div class="cell" data-hash="index_cache/revealjs/bs00fit_b9727940a3b86efb59a029acabadd453">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_fitted_values</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> <span class="st">"#0056B9"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/bs00fit-1.png" width="960" class="r-stretch"></section>
+<section id="bsvars-modeling-of-monetary-policy-12" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="svar-sv-does-foreign-sector-matter">SVAR-SV: Does foreign sector matter?</h3>
+<div class="cell" data-hash="index_cache/revealjs/bs00va_d0ea897fce3479723dad796c957a529e">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>A0 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="dv">5</span>, <span class="dv">56</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>A0[,<span class="dv">45</span><span class="sc">:</span><span class="dv">56</span>] <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">verify_autoregression</span>(<span class="at">hypothesis =</span> A0) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> **************************************************|
+ bsvars: Bayesian Structural Vector Autoregressions|
+ **************************************************|
+   Summary of hypothesis verification              |
+      for autoregressive parameters                |
+ **************************************************|</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> log(SDDR)      NSE Pr[H0|data]  Pr[H1|data]
+  156.8253 4.668342           1 7.791643e-69</code></pre>
+</div>
+</div>
 <!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
-<!-- ### Unrestricted system. -->
-<!-- \begin{align} -->
-<!-- \begin{bmatrix} -->
-<!-- B_{0.11}&B_{0.12}&B_{0.13}&B_{0.14}\\ -->
-<!-- B_{0.21}&B_{0.22}&B_{0.23}&B_{0.24}\\ -->
-<!-- B_{0.31}&B_{0.32}&B_{0.33}&B_{0.34}\\ -->
-<!-- B_{0.41}&B_{0.42}&B_{0.43}&B_{0.44} -->
-<!-- \end{bmatrix} -->
-<!-- \begin{bmatrix} \Delta rgdp_t \\ \pi_t \\ CR_t \\ EX_t \end{bmatrix} &= \dots +  -->
-<!-- \begin{bmatrix} u_{1.t} \\ u_{2.t} \\ u_{3.t} \\ {4.t} \end{bmatrix} -->
-<!-- \end{align} -->
-<!-- ### Identified shocks. -->
-<!-- - identification through heteroskedasticity required -->
-<!-- - can shocks be labelled? -->
-<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
-<!-- ### General setup. -->
-<!-- ```{r gen_set} -->
-<!-- library(bsvars) -->
-<!-- set.seed(123) -->
-<!-- N       = ncol(y) -->
-<!-- p       = 12 -->
-<!-- S_burn  = 1e4 -->
-<!-- S       = 2e4 -->
-<!-- thin    = 2 -->
-<!-- ``` -->
-<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
-<!-- ### Specify the lower-triangular SVAR-SV. -->
-<!-- ```{r spec_lt} -->
+<!-- ### Forecasting. -->
+<!-- ```{r bs00for} -->
 <!-- #| cache: true -->
-<!-- #|  -->
-<!-- spec_lt = specify_bsvar_sv$new(   # specify an SVAR-SV -->
-<!--   as.matrix(y),                   # endogenous variables -->
-<!--   p = p,                          # lag order -->
-<!--   exogenous = x                   # exogenous variables -->
-<!-- ) -->
-<!-- A_ols           = t(solve(        # compute A_ols -->
-<!--   tcrossprod(spec_lt$data_matrices$X), -->
-<!--   tcrossprod(spec_lt$data_matrices$X, spec_lt$data_matrices$Y) -->
-<!-- )) -->
-<!-- spec_lt$prior$A = A_ols           # prior mean of A set to A_ols -->
-<!-- spec_lt -->
+<!-- post |> forecast(horizon = 24) |> plot(probability = 0.68, col = "#0056B9") -->
 <!-- ``` -->
+</section>
+<section id="bsvars-modeling-of-monetary-policy-13" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="specify-and-estimate-a-lower-triangular-svar-t.">Specify and estimate a lower-triangular SVAR-t.</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>spec          <span class="ot">=</span> specify_bsvar_t<span class="sc">$</span><span class="fu">new</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data        =</span> <span class="fu">tail</span>(soe[,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], T),</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">p           =</span> lag_order,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">exogenous   =</span> <span class="fu">tail</span>(exogenous, T)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>burn          <span class="ot">=</span> <span class="fu">estimate</span>(spec, <span class="fl">1e4</span>)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>post          <span class="ot">=</span> <span class="fu">estimate</span>(burn, <span class="fl">1e4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="bsvars-modeling-of-monetary-policy-14" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="svar-t-compute-and-plot-impulse-responses.">SVAR-t: Compute and plot impulse responses.</h3>
+<div class="cell" data-hash="index_cache/revealjs/bs01_5a9e405386b57be39340a535abfdebb7">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_impulse_responses</span>(<span class="at">horizon =</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">probability =</span> <span class="fl">0.68</span>, <span class="at">col =</span> <span class="st">"#0056B9"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/bs01-1.png" width="960" class="r-stretch"></section>
+<section id="bsvars-modeling-of-monetary-policy-15" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="svar-t-forecast-error-variance-decompositions.">SVAR-t: Forecast error variance decompositions.</h3>
+<div class="cell" data-hash="index_cache/revealjs/bs01fevd_e8b82aa3d3c80bfa17507d47c38dbf3a">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_variance_decompositions</span>(<span class="at">horizon =</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> bsvars_grad )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/bs01fevd-1.png" width="960" class="r-stretch"></section>
+<section id="bsvars-modeling-of-monetary-policy-16" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="svar-t-structural-shocks.">SVAR-t: Structural shocks.</h3>
+<div class="cell" data-hash="index_cache/revealjs/bs01sss_b7c00f92f584669f4b7f59a2722d968c">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_structural_shocks</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> <span class="st">"#0056B9"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/bs01sss-1.png" width="960" class="r-stretch"></section>
+<section id="bsvars-modeling-of-monetary-policy-17" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="svar-t-normality-verification.">SVAR-t: Normality verification.</h3>
+<div class="cell" data-hash="index_cache/revealjs/bs01vv_b27c19a71cd1e40cca379da00c690baa">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">verify_identification</span>() <span class="sc">|&gt;</span> <span class="fu">summary</span>( )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> **************************************************|
+ bsvars: Bayesian Structural Vector Autoregressions|
+ **************************************************|
+   Summary of identification verification          |
+   H0: df = Inf    [normal shocks]                 |
+   H1: df != Inf   [Student-t shocks]              |
+ **************************************************|</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> log(SDDR) SDDR Pr[H0|data] Pr[H1|data]
+      -Inf    0           0           1</code></pre>
+</div>
+</div>
+</section>
+<section id="bsvars-modeling-of-monetary-policy-18" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
+<h3 id="svar-t-degrees-of-freedom-posterior-density.">SVAR-t: Degrees-of-freedom posterior density.</h3>
+<div class="cell" data-hash="index_cache/revealjs/bs01df_4b3df5d7e00697567972c611766117c2">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>post<span class="sc">$</span>posterior<span class="sc">$</span>df <span class="sc">|&gt;</span> <span class="fu">hist</span>(<span class="at">breaks =</span> <span class="dv">100</span>, <span class="at">col =</span> <span class="st">"#0056B9"</span>, <span class="at">border =</span> <span class="st">"#0056B9"</span>, <span class="at">bty =</span> <span class="st">"n"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
+<!-- ### SVAR-t: Forecasting. -->
+<!-- ```{r bs01for} -->
+<!-- #| cache: true -->
+<!-- post |> forecast(horizon = 24) |> plot(probability = 0.68, col = "#0056B9") -->
+<!-- ``` -->
+<img data-src="index_files/figure-revealjs/bs01df-1.png" width="960" class="r-stretch"></section>
+<section id="section-4" class="slide level2" data-background-color="#0056B9">
+<h2></h2>
+<p><img data-src="bsvars.png" class="absolute" style="top: 40px; right: 540px; width: 500px; "> <img data-src="bsvarSIGNs.png" class="absolute" style="top: 40px; right: 10px; width: 500px; "></p>
 <!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
 <!-- ### Specify the extended SVAR-SV. -->
 <!-- ```{r spec_ex} -->
@@ -1020,11 +1181,11 @@ SDDR = \frac{\Pr[\omega_n = 0 | data]}{\Pr[\omega_n \neq 0 | data]}= \frac{p(\om
 <!-- post_ex |> compute_variance_decompositions(horizon = 24) |> plot() -->
 <!-- ``` -->
 <!-- <!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
-<p>–&gt;</p>
 <!-- <!-- ### Extended SVAR-SV results. -->
-<p>–&gt;</p>
 <!-- <!-- ```{r ex_hd} -->
-<p>–&gt; <!-- <!-- #| cache: true --> –&gt; <!-- <!-- post_ex |> compute_historical_decompositions() |> plot() --> –&gt; <!-- <!-- ``` --> –&gt;</p>
+<!-- <!-- #| cache: true -->
+<!-- <!-- post_ex |> compute_historical_decompositions() |> plot() -->
+<!-- <!-- ``` -->
 <!-- ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy -->
 <!-- ### Extended SVAR-SV results. -->
 <!-- ```{r ex_ss} -->
@@ -1114,11 +1275,6 @@ SDDR = \frac{\Pr[\omega_n = 0 | data]}{\Pr[\omega_n \neq 0 | data]}= \frac{p(\om
 <!-- ```{r ur_irf} -->
 <!-- #| cache: true -->
 <!-- post_ur |> compute_impulse_responses(horizon = 24) |> plot(probability = 0.68) -->
-<p>```</p>
-</section>
-<section id="section-6" class="slide level2" data-background-color="#0056B9">
-<h2></h2>
-<p><img data-src="bsvars.png" class="absolute" style="top: 40px; right: 10px; width: 500px; "> <img data-src="bsvarSIGNs.png" class="absolute" style="top: 40px; right: 540px; width: 500px; "></p>
 <div class="footer footer-default">
 <p><a href="https://bsvars.github.io">bsvars.github.io</a></p>
 </div>
