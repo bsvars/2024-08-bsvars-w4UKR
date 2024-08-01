@@ -259,6 +259,21 @@ spec2 |>
 
 
 
+## My first steps with [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"}
+
+### Exercise.
+
+1. Download **R** script [w4UKR_bsvars.R](https://github.com/bsvars/2024-08-bsvars-w4UKR/blob/main/w4UKR_bsvars.R)
+2. Open the file in your **RStudio**
+3. Execute the code line by line
+
+#### You have just estimated your first model using the **bsvars** package! YAY!
+
+4. Modify the line specifying the model to 
+```
+specify_bsvar_t$new(p = 4) |>
+```
+5. Run the code line by line
 
 
 
@@ -736,6 +751,14 @@ $$ $$
 
 
 
+## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} hypothesis verification
+
+### ...for autoregressive parameters.
+
+### Exercise.
+
+1. Download the **R** script [w4UKR_bsvars_Granger.R](https://github.com/bsvars/2024-08-bsvars-w4UKR/blob/main/w4UKR_bsvars_Granger.R)
+2. Verify the hypothesis of no Granger causality from ttr to gdp
 
 
 ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy   {background-color="#0056B9"}

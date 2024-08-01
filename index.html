@@ -536,6 +536,23 @@
 <h3 id="progress-bar">- progress bar</h3>
 <p><img data-src="bsvars_progress.png" class="absolute" style="top: 150px; right: 100px; width: 900px; "></p>
 </section>
+<section id="my-first-steps-with-bsvars" class="slide level2">
+<h2>My first steps with <a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a></h2>
+<h3 id="exercise.">Exercise.</h3>
+<ol type="1">
+<li>Download <strong>R</strong> script <a href="https://github.com/bsvars/2024-08-bsvars-w4UKR/blob/main/w4UKR_bsvars.R">w4UKR_bsvars.R</a></li>
+<li>Open the file in your <strong>RStudio</strong></li>
+<li>Execute the code line by line</li>
+</ol>
+<h4 id="you-have-just-estimated-your-first-model-using-the-bsvars-package-yay">You have just estimated your first model using the <strong>bsvars</strong> package! YAY!</h4>
+<ol start="4" type="1">
+<li>Modify the line specifying the model to</li>
+</ol>
+<pre><code>specify_bsvar_t$new(p = 4) |&gt;</code></pre>
+<ol start="5" type="1">
+<li>Run the code line by line</li>
+</ol>
+</section>
 <section id="bsvars-models-and-identification-1" class="slide level2" data-background-color="#0056B9">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> models and identification</h2>
 </section>
@@ -829,6 +846,15 @@ H_0:\quad\mathbf{S}\text{vec}(\mathbf{A})  = \mathbf{r}
 <li>use the <code>verify_autoregression()</code> function</li>
 </ul>
 </section>
+<section id="bsvars-hypothesis-verification-1" class="slide level2">
+<h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> hypothesis verification</h2>
+<h3 id="for-autoregressive-parameters.-1">…for autoregressive parameters.</h3>
+<h3 id="exercise.-1">Exercise.</h3>
+<ol type="1">
+<li>Download the <strong>R</strong> script <a href="https://github.com/bsvars/2024-08-bsvars-w4UKR/blob/main/w4UKR_bsvars_Granger.R">w4UKR_bsvars_Granger.R</a></li>
+<li>Verify the hypothesis of no Granger causality from ttr to gdp</li>
+</ol>
+</section>
 <section id="bsvars-modeling-of-monetary-policy-1" class="slide level2" data-background-color="#0056B9">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 </section>
@@ -903,36 +929,36 @@ B_{0.51}&amp;B_{0.52}&amp;B_{0.53}&amp;B_{0.54}&amp;B_{0.55}
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="specify-and-estimate-a-lower-triangular-svar-sv.">Specify and estimate a lower-triangular SVAR-SV.</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bsvars)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"soe.rda"</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>soe           <span class="ot">=</span> <span class="fu">as.matrix</span>(soe)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>TT            <span class="ot">=</span> <span class="fu">nrow</span>(soe)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>lag_order     <span class="ot">=</span> <span class="dv">8</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>lag_exogenous <span class="ot">=</span> <span class="dv">4</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>T             <span class="ot">=</span> TT <span class="sc">-</span> <span class="fu">max</span>(lag_order, lag_exogenous)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>exogenous     <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, TT <span class="sc">-</span> lag_exogenous, <span class="dv">0</span>)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>lag_exogenous) {</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  exogenous   <span class="ot">=</span> <span class="fu">cbind</span>(exogenous, <span class="fu">as.matrix</span>(soe[(lag_exogenous <span class="sc">-</span> i <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(TT <span class="sc">-</span> i), <span class="dv">6</span><span class="sc">:</span><span class="dv">8</span>]))</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>spec          <span class="ot">=</span> specify_bsvar_sv<span class="sc">$</span><span class="fu">new</span>(</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">data        =</span> <span class="fu">tail</span>(soe[,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], T),</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">p           =</span> lag_order,</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">exogenous   =</span> <span class="fu">tail</span>(exogenous, T)</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>burn          <span class="ot">=</span> <span class="fu">estimate</span>(spec, <span class="fl">1e4</span>)</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>post          <span class="ot">=</span> <span class="fu">estimate</span>(burn, <span class="fl">1e4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bsvars)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"soe.rda"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>soe           <span class="ot">=</span> <span class="fu">as.matrix</span>(soe)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>TT            <span class="ot">=</span> <span class="fu">nrow</span>(soe)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>lag_order     <span class="ot">=</span> <span class="dv">8</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>lag_exogenous <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>T             <span class="ot">=</span> TT <span class="sc">-</span> <span class="fu">max</span>(lag_order, lag_exogenous)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>exogenous     <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, TT <span class="sc">-</span> lag_exogenous, <span class="dv">0</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>lag_exogenous) {</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  exogenous   <span class="ot">=</span> <span class="fu">cbind</span>(exogenous, <span class="fu">as.matrix</span>(soe[(lag_exogenous <span class="sc">-</span> i <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(TT <span class="sc">-</span> i), <span class="dv">6</span><span class="sc">:</span><span class="dv">8</span>]))</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>spec          <span class="ot">=</span> specify_bsvar_sv<span class="sc">$</span><span class="fu">new</span>(</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">data        =</span> <span class="fu">tail</span>(soe[,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], T),</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">p           =</span> lag_order,</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">exogenous   =</span> <span class="fu">tail</span>(exogenous, T)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>burn          <span class="ot">=</span> <span class="fu">estimate</span>(spec, <span class="fl">1e4</span>)</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>post          <span class="ot">=</span> <span class="fu">estimate</span>(burn, <span class="fl">1e4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="bsvars-modeling-of-monetary-policy-6" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="svar-sv-compute-and-plot-impulse-responses.">SVAR-SV: Compute and plot impulse responses.</h3>
 <div class="cell" data-layout-align="center" data-hash="index_cache/revealjs/bs00_ed5e158b8fa7d6165daa8b684ef5c1d4">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_impulse_responses</span>(<span class="at">horizon =</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">probability =</span> <span class="fl">0.68</span>, <span class="at">col =</span> <span class="st">"#0056B9"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_impulse_responses</span>(<span class="at">horizon =</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">probability =</span> <span class="fl">0.68</span>, <span class="at">col =</span> <span class="st">"#0056B9"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="index_files/figure-revealjs/bs00-1.png" width="768" class="r-stretch quarto-figure-center"></section>
@@ -940,7 +966,7 @@ B_{0.51}&amp;B_{0.52}&amp;B_{0.53}&amp;B_{0.54}&amp;B_{0.55}
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="svar-sv-forecast-error-variance-decompositions.">SVAR-SV: Forecast error variance decompositions.</h3>
 <div class="cell" data-layout-align="center" data-hash="index_cache/revealjs/bs00fevd_05b6f100633a7a4d78c116eb14d4cbf6">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_variance_decompositions</span>(<span class="at">horizon =</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> bsvars_grad)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_variance_decompositions</span>(<span class="at">horizon =</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> bsvars_grad)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="index_files/figure-revealjs/bs00fevd-1.png" width="768" class="r-stretch quarto-figure-center"></section>
@@ -948,7 +974,7 @@ B_{0.51}&amp;B_{0.52}&amp;B_{0.53}&amp;B_{0.54}&amp;B_{0.55}
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="svar-sv-structural-shocks.">SVAR-SV: Structural shocks.</h3>
 <div class="cell" data-layout-align="center" data-hash="index_cache/revealjs/bs00sss_7a0163c11618cec4b6d66cdec49d6db4">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_structural_shocks</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> <span class="st">"#0056B9"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_structural_shocks</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> <span class="st">"#0056B9"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="index_files/figure-revealjs/bs00sss-1.png" width="768" class="r-stretch quarto-figure-center"></section>
@@ -956,7 +982,7 @@ B_{0.51}&amp;B_{0.52}&amp;B_{0.53}&amp;B_{0.54}&amp;B_{0.55}
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="svar-sv-shocks-conditional-standard-deviations.">SVAR-SV: Shocks’ conditional standard deviations.</h3>
 <div class="cell" data-layout-align="center" data-hash="index_cache/revealjs/bs00csd_2f0055cdb8980f0dd8e290476c3cf6e8">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_conditional_sd</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> <span class="st">"#0056B9"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_conditional_sd</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> <span class="st">"#0056B9"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="index_files/figure-revealjs/bs00csd-1.png" width="768" class="r-stretch quarto-figure-center"></section>
@@ -964,7 +990,7 @@ B_{0.51}&amp;B_{0.52}&amp;B_{0.53}&amp;B_{0.54}&amp;B_{0.55}
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="svar-sv-homoskedasticity-verification.">SVAR-SV: Homoskedasticity verification.</h3>
 <div class="cell" data-hash="index_cache/revealjs/bs00vv_0361e6f49f200d36857751c63aab5c02">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">verify_identification</span>() <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">verify_identification</span>() <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> **************************************************|
  bsvars: Bayesian Structural Vector Autoregressions|
@@ -988,7 +1014,7 @@ shock 5   -2.5202529  1.911860 7.445051e-02   0.9255495</code></pre>
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="svar-sv-fitted-values.">SVAR-SV: Fitted Values.</h3>
 <div class="cell" data-layout-align="center" data-hash="index_cache/revealjs/bs00fit_bf4ad49bd9e1c20c67f559ec0388c5f5">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_fitted_values</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> <span class="st">"#0056B9"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_fitted_values</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> <span class="st">"#0056B9"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="index_files/figure-revealjs/bs00fit-1.png" width="768" class="r-stretch quarto-figure-center"></section>
@@ -996,9 +1022,9 @@ shock 5   -2.5202529  1.911860 7.445051e-02   0.9255495</code></pre>
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="svar-sv-does-foreign-sector-matter">SVAR-SV: Does foreign sector matter?</h3>
 <div class="cell" data-hash="index_cache/revealjs/bs00va_d0ea897fce3479723dad796c957a529e">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>A0 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="dv">5</span>, <span class="dv">56</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>A0[,<span class="dv">45</span><span class="sc">:</span><span class="dv">56</span>] <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">verify_autoregression</span>(<span class="at">hypothesis =</span> A0) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>A0 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="dv">5</span>, <span class="dv">56</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>A0[,<span class="dv">45</span><span class="sc">:</span><span class="dv">56</span>] <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">verify_autoregression</span>(<span class="at">hypothesis =</span> A0) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> **************************************************|
  bsvars: Bayesian Structural Vector Autoregressions|
@@ -1023,22 +1049,22 @@ shock 5   -2.5202529  1.911860 7.445051e-02   0.9255495</code></pre>
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="specify-and-estimate-a-lower-triangular-svar-t.">Specify and estimate a lower-triangular SVAR-t.</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>spec          <span class="ot">=</span> specify_bsvar_t<span class="sc">$</span><span class="fu">new</span>(</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data        =</span> <span class="fu">tail</span>(soe[,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], T),</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">p           =</span> lag_order,</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">exogenous   =</span> <span class="fu">tail</span>(exogenous, T)</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>burn          <span class="ot">=</span> <span class="fu">estimate</span>(spec, <span class="fl">1e4</span>)</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>post          <span class="ot">=</span> <span class="fu">estimate</span>(burn, <span class="fl">1e4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>spec          <span class="ot">=</span> specify_bsvar_t<span class="sc">$</span><span class="fu">new</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data        =</span> <span class="fu">tail</span>(soe[,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], T),</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">p           =</span> lag_order,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">exogenous   =</span> <span class="fu">tail</span>(exogenous, T)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>burn          <span class="ot">=</span> <span class="fu">estimate</span>(spec, <span class="fl">1e4</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>post          <span class="ot">=</span> <span class="fu">estimate</span>(burn, <span class="fl">1e4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="bsvars-modeling-of-monetary-policy-14" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="svar-t-compute-and-plot-impulse-responses.">SVAR-t: Compute and plot impulse responses.</h3>
 <div class="cell" data-layout-align="center" data-hash="index_cache/revealjs/bs01_be94d3f337524986b4f3d69f60ec288f">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_impulse_responses</span>(<span class="at">horizon =</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">probability =</span> <span class="fl">0.68</span>, <span class="at">col =</span> <span class="st">"#0056B9"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_impulse_responses</span>(<span class="at">horizon =</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">probability =</span> <span class="fl">0.68</span>, <span class="at">col =</span> <span class="st">"#0056B9"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="index_files/figure-revealjs/bs01-1.png" width="768" class="r-stretch quarto-figure-center"></section>
@@ -1046,7 +1072,7 @@ shock 5   -2.5202529  1.911860 7.445051e-02   0.9255495</code></pre>
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="svar-t-forecast-error-variance-decompositions.">SVAR-t: Forecast error variance decompositions.</h3>
 <div class="cell" data-layout-align="center" data-hash="index_cache/revealjs/bs01fevd_6d79fa89593b5ca7d4098604afa7e44f">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_variance_decompositions</span>(<span class="at">horizon =</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> bsvars_grad )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_variance_decompositions</span>(<span class="at">horizon =</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> bsvars_grad )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="index_files/figure-revealjs/bs01fevd-1.png" width="768" class="r-stretch quarto-figure-center"></section>
@@ -1054,7 +1080,7 @@ shock 5   -2.5202529  1.911860 7.445051e-02   0.9255495</code></pre>
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="svar-t-structural-shocks.">SVAR-t: Structural shocks.</h3>
 <div class="cell" data-layout-align="center" data-hash="index_cache/revealjs/bs01sss_35fc75d5d2284b2ef7d1d802eb365908">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_structural_shocks</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> <span class="st">"#0056B9"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_structural_shocks</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> <span class="st">"#0056B9"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="index_files/figure-revealjs/bs01sss-1.png" width="768" class="r-stretch quarto-figure-center"></section>
@@ -1062,7 +1088,7 @@ shock 5   -2.5202529  1.911860 7.445051e-02   0.9255495</code></pre>
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="svar-t-normality-verification.">SVAR-t: Normality verification.</h3>
 <div class="cell" data-layout-align="center" data-hash="index_cache/revealjs/bs01vv_f9551744403b20bf19e33845792c6e36">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">verify_identification</span>() <span class="sc">|&gt;</span> <span class="fu">summary</span>( )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">verify_identification</span>() <span class="sc">|&gt;</span> <span class="fu">summary</span>( )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> **************************************************|
  bsvars: Bayesian Structural Vector Autoregressions|
@@ -1086,7 +1112,7 @@ shock 5   -2.5190196  1.9091024 7.453555e-02   0.9254645</code></pre>
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="svar-t-degrees-of-freedom-posterior-density.">SVAR-t: Degrees-of-freedom posterior density.</h3>
 <div class="cell" data-layout-align="center" data-hash="index_cache/revealjs/bs01df_39dbb350f56644a3659b2fb184e0af39">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>post<span class="sc">$</span>posterior<span class="sc">$</span>df <span class="sc">|&gt;</span> <span class="fu">hist</span>(<span class="at">breaks =</span> <span class="dv">100</span>, <span class="at">col =</span> <span class="st">"#0056B9"</span>, <span class="at">border =</span> <span class="st">"#0056B9"</span>, <span class="at">bty =</span> <span class="st">"n"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>post<span class="sc">$</span>posterior<span class="sc">$</span>df <span class="sc">|&gt;</span> <span class="fu">hist</span>(<span class="at">breaks =</span> <span class="dv">100</span>, <span class="at">col =</span> <span class="st">"#0056B9"</span>, <span class="at">border =</span> <span class="st">"#0056B9"</span>, <span class="at">bty =</span> <span class="st">"n"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="index_files/figure-revealjs/bs01df-1.png" width="768" class="r-stretch quarto-figure-center"></section>
@@ -1094,7 +1120,7 @@ shock 5   -2.5190196  1.9091024 7.453555e-02   0.9254645</code></pre>
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="svar-t-fitted-values.">SVAR-t: Fitted Values.</h3>
 <div class="cell" data-layout-align="center" data-hash="index_cache/revealjs/bs01fit_21945906f732ab63165d4bcfa75b5bf8">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_fitted_values</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> <span class="st">"#0056B9"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_fitted_values</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">col =</span> <span class="st">"#0056B9"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="index_files/figure-revealjs/bs01fit-1.png" width="768" class="r-stretch quarto-figure-center"></section>
