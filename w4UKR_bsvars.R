@@ -6,7 +6,7 @@ data(us_fiscal_lsuw)    # upload dependent variables
 
 set.seed(123)
 us_fiscal_lsuw |>
-  specify_bsvar$new(p = 4) |>
+  specify_bsvar_t$new(p = 4) |>
   estimate(S = 1000) |> 
   estimate(S = 2000) -> post
 
@@ -22,7 +22,7 @@ h       = 4
 cf = cbind(rep(NA, h),tail(us_fiscal_lsuw[,2], 1) + mean(diff(us_fiscal_lsuw[,2])) * 1:h,rep(NA, h))
 post |> 
   forecast(horizon = h) |> 
-  plot(data_in_plot = 0.2)
+  plot(data_in_plot = 0.1)
 post |> 
   forecast(horizon = h, conditional_forecast = cf) |> 
   plot(data_in_plot = 0.2)

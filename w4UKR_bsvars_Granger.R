@@ -15,5 +15,5 @@ post$last_draw$starting_values$A # study the structure of the A matrix
 
 # verify no Granger causality from ttr to gdp
 H0      = matrix(NA, 3, 4)
-H0[,]    = 0 # modify this line to set appropriate restriction
+H0[3,1]    = 0 # modify this line to set appropriate restriction
 post |> verify_autoregression(hypothesis = H0) |> summary()

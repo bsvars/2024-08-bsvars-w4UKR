@@ -498,13 +498,13 @@
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate</span>(<span class="at">S =</span> <span class="dv">1000</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate</span>(<span class="at">S =</span> <span class="dv">10000</span>) <span class="ot">-&gt;</span> post</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_impulse_responses</span>(<span class="at">horizon =</span> <span class="dv">12</span>) <span class="ot">-&gt;</span> <span class="fu">plot</span>()</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_variance_decompositions</span>(<span class="at">horizon =</span> <span class="dv">12</span>) <span class="ot">-&gt;</span> <span class="fu">plot</span>()</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_historical_decompositions</span>() <span class="ot">-&gt;</span> <span class="fu">plot</span>()</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_structural_shocks</span>() <span class="ot">-&gt;</span> <span class="fu">plot</span>()</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_conditional_sd</span>() <span class="ot">-&gt;</span> <span class="fu">plot</span>()</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">forecast</span>(<span class="at">horizon =</span> <span class="dv">12</span>) <span class="ot">-&gt;</span> <span class="fu">plot</span>()</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">verify_identification</span>() <span class="ot">-&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_impulse_responses</span>(<span class="at">horizon =</span> <span class="dv">12</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_variance_decompositions</span>(<span class="at">horizon =</span> <span class="dv">12</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_historical_decompositions</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_structural_shocks</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">compute_conditional_sd</span>() <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">forecast</span>(<span class="at">horizon =</span> <span class="dv">12</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">verify_identification</span>() <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="bsvars-package-features-7" class="slide level2">
@@ -1087,24 +1087,20 @@ shock 5   -2.5202529  1.911860 7.445051e-02   0.9255495</code></pre>
 <section id="bsvars-modeling-of-monetary-policy-17" class="slide level2">
 <h2><a href="https://cran.r-project.org/package=bsvars" style="color:#FFD800;">bsvars</a> modeling of monetary policy</h2>
 <h3 id="svar-t-normality-verification.">SVAR-t: Normality verification.</h3>
-<div class="cell" data-layout-align="center" data-hash="index_cache/revealjs/bs01vv_f9551744403b20bf19e33845792c6e36">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">verify_identification</span>() <span class="sc">|&gt;</span> <span class="fu">summary</span>( )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center" data-hash="index_cache/revealjs/bs01vv_7f93482a4b3f89eadffd37d82861eee2">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>post <span class="sc">|&gt;</span> <span class="fu">verify_identification</span>() <span class="sc">|&gt;</span>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> **************************************************|
  bsvars: Bayesian Structural Vector Autoregressions|
  **************************************************|
    Summary of identification verification          |
-     H0: omega_n = 0  [homoskedasticity]           |
-     H1: omega_n != 0 [heteroskedasticity]         |
+   H0: df = Inf    [normal shocks]                 |
+   H1: df != Inf   [Student-t shocks]              |
  **************************************************|</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           log(SDDR)        NSE  Pr[H0|data] Pr[H1|data]
-shock 1 -139.2066904 56.2061755 3.493836e-61   1.0000000
-shock 2  -77.3357623 60.4382345 2.591225e-34   1.0000000
-shock 3  -20.9783035 20.5683812 7.748873e-10   1.0000000
-shock 4   -0.2606003  0.5270637 4.352162e-01   0.5647838
-shock 5   -2.5190196  1.9091024 7.453555e-02   0.9254645</code></pre>
+<pre><code> log(SDDR) SDDR Pr[H0|data] Pr[H1|data]
+      -Inf    0           0           1</code></pre>
 </div>
 </div>
 </section>

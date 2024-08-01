@@ -200,13 +200,13 @@ us_fiscal_lsuw |>
   estimate(S = 1000) |> 
   estimate(S = 10000) -> post
 
-post |> compute_impulse_responses(horizon = 12) -> plot()
-post |> compute_variance_decompositions(horizon = 12) -> plot()
-post |> compute_historical_decompositions() -> plot()
-post |> compute_structural_shocks() -> plot()
-post |> compute_conditional_sd() -> plot()
-post |> forecast(horizon = 12) -> plot()
-post |> verify_identification() -> summary()
+post |> compute_impulse_responses(horizon = 12) |> plot()
+post |> compute_variance_decompositions(horizon = 12) |> plot()
+post |> compute_historical_decompositions() |> plot()
+post |> compute_structural_shocks() |> plot()
+post |> compute_conditional_sd() |> plot()
+post |> forecast(horizon = 12) |> plot()
+post |> verify_identification() |> summary()
 ```
 
 
@@ -1016,8 +1016,7 @@ post          = estimate(burn, 1e4)
 ```{r load01}
 #| echo: false
 #| cache: true
-load("empiRical/bsvars06.rda")
-
+load("empiRical/bsvars06.rda" )
 ```
 
 ## [bsvars](https://cran.r-project.org/package=bsvars){style="color:#FFD800;"} modeling of monetary policy
@@ -1066,7 +1065,7 @@ post |> compute_structural_shocks() |> plot(col = "#0056B9" )
 #| cache: true
 #| fig-align: center
 #| fig-width: 8
-post |> verify_identification() |> summary( )
+post |> verify_identification() |>  summary()
 ```
 
 
