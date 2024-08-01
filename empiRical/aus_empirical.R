@@ -30,6 +30,28 @@ create_interpolated_series <- function(data, start_date, end_date) {
 start_date = "1950-01-01"
 end_date   = "2024-07-27"
 
+# US data
+############################################################
+# QUARTERLY
+# real gdp
+gdp       = fredr::fredr("GDPC1")
+df_gdp    = create_interpolated_series(gdp, start_date, end_date)
+gdp       = xts::xts(df_gdp$value_out, df_gdp$date, tclass = 'yearmon')
+rgdp       = xts::to.monthly(gdp, OHLC = FALSE, drop.time = TRUE)
+rm(df_gdp)
+
+# Consumer Price Index: All Items for the United States
+cpi       = fredr::fredr("USACPIALLMINMEI")
+cpi       = xts::xts(cpi$value, cpi$date, tclass = 'yearmon')
+cpi       = 100 * log(cpi)
+
+# Federal Funds Effective Rate
+FFR       = fredr::fredr("FEDFUNDS")
+FFR       = xts::xts(FFR$value, FFR$date, tclass = 'yearmon')
+
+# AUS data
+############################################################
+
 # QUARTERLY
 # Real Gross Domestic Product for Australia (Domestic Currency, Seasonally Adjusted)
 aud_gdp   = fredr::fredr("NGDPRSAXDCAUQ")
@@ -72,19 +94,33 @@ aord_tmp          = xts::xts(log(aord_download[,6]), as.Date(aord_download[,1]))
 aord_tmp          = na.omit(aord_tmp)
 aud_aord          = xts::to.monthly(aord_tmp, OHLC = FALSE, drop.time = TRUE)
 
-aud = na.omit(merge(aud_gdp, aud_cpi, aud_CR, aud_USD, aud_aord))
+aus = na.omit(merge(aud_gdp, aud_cpi, aud_CR, aud_USD, aud_aord))
+us  = na.omit(merge(rgdp, cpi, FFR))
+soe = na.omit(merge(aus, us))
 
-
+save(soe, file = "soe.rda")
 
 # analyses using SVAR-SV model 
 ############################################################
 library(bsvars)
-aud           = as.matrix(aud)
+load("soe.rda")
+soe           = as.matrix(soe)
+
+TT            = nrow(soe)
+lag_order     = 8
+lag_exogenous = 4
+T             = TT - max(lag_order, lag_exogenous)
+
+exogenous     = matrix(NA, TT - lag_exogenous, 0)
+for (i in 0:lag_exogenous) {
+  exogenous   = cbind(exogenous, as.matrix(soe[(lag_exogenous - i + 1):(TT - i), 6:8]))
+}
 
 set.seed(1234)
 spec          = specify_bsvar_sv$new(
-  data        = aud,
-  p           = 8
+  data        = tail(soe[,1:5], T),
+  p           = lag_order,
+  exogenous   = tail(exogenous, T)
 )
 
 burn          = estimate(spec, 1e4)
@@ -95,7 +131,34 @@ post |> compute_variance_decompositions(horizon = 60) |> plot(col = bsvars_grad)
 post |> compute_structural_shocks() |> plot(col = "#0056B9")
 post |> compute_conditional_sd() |> plot(col = "#0056B9")
 post |> compute_fitted_values() |> plot(col = "#0056B9")
-post |> forecast(horizon = 24) |> plot(probability = 0.68, col = "#0056B9")
 
+post |> verify_identification() |> summary()
 
+A0 = matrix(NA, 5, 56)
+A0[,45:56] = 0
+post |> verify_autoregression(hypothesis = A0) |> summary()
 
+# analyses using SVAR-t model 
+############################################################
+
+set.seed(1234)
+spec          = specify_bsvar_t$new(
+  data        = tail(soe[,1:5], T),
+  p           = lag_order,
+  exogenous   = tail(exogenous, T)
+)
+
+burn          = estimate(spec, 1e4)
+post          = estimate(burn, 1e4)
+
+post |> compute_impulse_responses(horizon = 60) |> plot(probability = 0.68, col = bsvars_grad)
+post |> compute_variance_decompositions(horizon = 60) |> plot(col = bsvars_grad)
+post |> compute_structural_shocks() |> plot(col = "#0056B9")
+post |> compute_conditional_sd() |> plot(col = "#0056B9")
+post |> compute_fitted_values() |> plot(col = "#0056B9")
+
+post |> verify_identification() |> summary()
+
+A0 = matrix(NA, 5, 56)
+A0[,45:56] = 0
+post |> verify_autoregression(hypothesis = A0) |> summary()
